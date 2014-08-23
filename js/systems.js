@@ -50,9 +50,10 @@ Systems = {
   gestureTowardCenter: function(){
     E('Gesture').each(function(gesture,id){
       if(!gesture.towardCenter){
+        var center = {x: can.width/2, y: can.height/2}
         var d = gesture.direction;
-        var initalDistance = _.distance({x:0,y:0},gesture.start);
-        var finalDistance = _.distance({x:0,y:0},gesture.end);
+        var initalDistance = _.distance(center,gesture.start);
+        var finalDistance = _.distance(center,gesture.end);
         gesture.towardCenter = finalDistance < initalDistance;
       }
     })
