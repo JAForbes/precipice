@@ -1,34 +1,47 @@
 LD30
 ====
 
-Thoughts
---------
+How to handle recording gestures?
+---------------------------------
 
-I want to make a more complete game.
+Up until now, I was recording the mouse start and end coords on the mouse component.
+But now I think I should be creating a gesture on mouse start, and adding to it on mouse up.
 
-I want to pick an idea that seems easy, becuase they always end up being way harder.
-And I want to have a menu for once, and possibly some level of persistence.
+```
 
-Right now I am tossing up between two ideas: An arcade minimal touch shooter, or a top down stealth game.
+//mouse down
+E(mouseID,'Gesture',{start: {x:mouse.x, y: mouse.y}});
 
-The arcade minimal touch shooter:
+//mouse up
+gesture = E('Gesture',mouseID)
+gesture.end = {x: mouse.x, y: mouse.y }
 
-- Easy AI : just floats towards you
-- Easy collision: Radial
-- Hard: Touch, unfamiliar territory
-- Hard: Not everyone has touch, so need mouse controls too
-- Easy: Procedural graphics, so an easier pipeline.
+```
 
-The Top Down Stealth Game
+Meanwhile somewhere else in the code, there is a system that looks at all the gestures and ignores them if they don't have an end yet.
 
-- Hard AI : Path finding, identifying vision of AI
-- Harder collision: Wall collision, obstaces
-- Easy: Can be procedural graphics, and later could become sprites
-- Easy: Keyboard controls
-- Mechanics: Not exactly sure how the game works.  The point could be to make it to a goal, or to avoid the other player.
+```
+E('Gesture').each(function(gesture,id){
 
-For now: I think the touch shooter wins.
+  if(gesture.end){
+    //do something
+  }
 
-I reserve the right to completely change my mind as I go.
+})
 
-I can't test the touch on my surface, as I had to turn off that screen to get chronolapse to work.  So I'll develop off the mouse and port to touch later.
+```
+But wouldn't be better if any code that wants to query gestures (and there will be a few)
+doesn't have to do that check.  After all, it is not really a gesture until it gestured.
+It _could_ later become a gesture.
+
+```
+
+//mouse down
+E(mouseID,'GestureStart',{start: {x:mouse.x, y: mouse.y}});
+
+//mouse up
+gesture = E('GestureStart',mouseID)
+gesture.end = {x: mouse.x, y: mouse.y }
+E(mouseID,'Gesture',gesture)
+delete E().GestureStart[mouseID]
+```
