@@ -150,10 +150,17 @@ Systems = {
       E('Gesture').each(function(gesture){
         if(gesture.towardCenter && gesture.velocity > 1){
           var center = {x: can.width/2, y: can.height/2};
+
           var y = gesture.start.y - center.y;
           var x = gesture.start.x - center.x;
           var angle = Math.atan2(y,x)
-          E(e,'Shield',{ coverageRatio: 1/(gesture.velocity), theta: angle, strength: gesture.velocity/2})
+          var charge = E('Charge',e);
+          var coverageRatio = 1/(gesture.velocity);
+          var strength = gesture.velocity/2;
+          var halfCircle = Math.PI;
+          var coverage = coverageRatio * halfCircle;
+
+          E(e,'Shield',{ coverage: coverage, coverageRatio: coverageRatio, theta: {start: angle - coverage, end: angle + coverage}, strength: strength, radius: charge.charge + 5+ strength *5 })
         }
       })
     })
@@ -179,13 +186,8 @@ Systems = {
       var con = E('Canvas').sample().con;
       con.beginPath()
       var position = E('Position',e);
-      var charge = E('Charge',e);//must be larger than this
-      var startAngle = -shield.theta/2 * shield.coverageRatio;
-      var endAngle = shield.theta/2 * shield.coverageRatio;
-      var halfCircle = Math.PI;
-      var coverage = shield.coverageRatio * halfCircle;
       con.lineWidth = shield.strength * 2;
-      con.arc(position.x, position.y, charge.charge + 5+ shield.strength *5, shield.theta - coverage ,shield.theta  + coverage, false)
+      con.arc(position.x, position.y, shield.radius, shield.theta.start,shield.theta.end, false)
       
       con.stroke();
     });

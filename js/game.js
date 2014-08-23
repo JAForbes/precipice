@@ -37,10 +37,17 @@ function loop () {
 loop()
 
 
+
 function Enemy(){
 	return {
 	  Position: {x:0 ,y:400},
 	  Velocity: {x:2, y: 0},
 	  Circle: {radius : 20}
+	}
+}
+
+window.onkeydown = function(e){
+	if(e.which == '69'){
+		E(Enemy())
 	}
 }
