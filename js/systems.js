@@ -148,7 +148,8 @@ Systems = {
   gestureShield: function() {
     E('GestureShield').each(function(gestureShield,e){
       E('Gesture').each(function(gesture){
-        if(gesture.towardCenter && gesture.velocity > 1){
+
+        if(gesture.towardCenter && gesture.velocity > 1 && gesture.distance > 100){
           var center = {x: can.width/2, y: can.height/2};
 
           var y = gesture.start.y - center.y;
@@ -192,15 +193,15 @@ Systems = {
       var offsetPos = _.direction(shieldPos,otherPos);
       var otherTheta = Math.atan2(offsetPos.y,offsetPos.x);
       var isWithinShieldArc = _.between(otherTheta,shield.theta.start,shield.theta.end,Math.PI*2)
-      console.log(isWithinShieldArc,isWithinCircle)
+
       isWithinShieldArc && isWithinCircle && E(otherE,'Intersected',{against:shieldE})
     }
 
   },
 
-  logIntersection: function(){
+  dieOnIntersection: function(){
     E('Intersected').each(function(intersected,e){
-      console.log('Intersected')
+      
     })
   },
 

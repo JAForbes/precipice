@@ -43,7 +43,8 @@ function Enemy(){
 	return {
 	  Position: {x: 0 ,y:can.height/2},
 	  Velocity: {x:2, y: 0},
-	  Circle: {radius : 20}
+	  Circle: {radius : 20},
+	  DieOnCollision: {}
 	}
 }
 
