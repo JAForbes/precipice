@@ -160,9 +160,47 @@ Systems = {
           var halfCircle = Math.PI;
           var coverage = coverageRatio * halfCircle;
 
-          E(e,'Shield',{ coverage: coverage, coverageRatio: coverageRatio, theta: {start: angle - coverage, end: angle + coverage}, strength: strength, radius: charge.charge + 5+ strength *5 })
+          E(e,'Shield',{ coverage: coverage, coverageRatio: coverageRatio, theta: {start: _.fmod(angle - coverage,2*Math.PI), end: _.fmod(angle + coverage,2*Math.PI)}, strength: strength, radius: charge.charge + 5+ strength *5 })
         }
       })
+    })
+  },
+
+  shieldRadialCollision: function(){
+
+          
+    E('Shield').each(function(shield,e){
+      E('Circle').each(function(pos,e2){
+        if(e != e2){
+          check(shield,e,e2)
+
+
+        }
+      })  
+    })
+    
+    function check(shield,shieldE,otherE){
+      var shieldPos = E('Position',shieldE);
+      var otherPos = E('Position',otherE);
+      var otherCircle = E('Circle',otherE);
+      //step 1: check if within radius
+      var d = _.distance(shieldPos,otherPos);
+      var r1 = shield.radius;
+      var r2 = otherCircle.radius;
+      var isWithinCircle = d < r1+r2;
+      //step 2: check if center within start and end theta
+      var offsetPos = _.direction(shieldPos,otherPos);
+      var otherTheta = Math.atan2(offsetPos.y,offsetPos.x);
+      var isWithinShieldArc = _.between(otherTheta,shield.theta.start,shield.theta.end,Math.PI*2)
+      console.log(isWithinShieldArc,isWithinCircle)
+      isWithinShieldArc && isWithinCircle && E(otherE,'Intersected',{against:shieldE})
+    }
+
+  },
+
+  logIntersection: function(){
+    E('Intersected').each(function(intersected,e){
+      console.log('Intersected')
     })
   },
 
@@ -222,6 +260,7 @@ Systems = {
   cleanUp: function(){
     delete E().Shoot
     delete E().Gesture
+    delete E().Intersected
   }
 
 

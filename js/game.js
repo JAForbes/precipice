@@ -10,6 +10,8 @@ var systems = [
 	'gestureShoot',
 	'gestureShield',
 	'move',
+	'shieldRadialCollision',
+	'logIntersection',
 	'shoot',
 	'useShootCharge',
 	'useShieldCharge',
@@ -37,17 +39,20 @@ function loop () {
 loop()
 
 
-
 function Enemy(){
 	return {
-	  Position: {x:0 ,y:400},
+	  Position: {x: 0 ,y:can.height/2},
 	  Velocity: {x:2, y: 0},
 	  Circle: {radius : 20}
 	}
 }
 
 window.onkeydown = function(e){
+	console.log(e.which)
 	if(e.which == '69'){
 		E(Enemy())
+	} else if (e.which == '80'){
+		E('Paused').sample().paused = !E('Paused').sample().paused;
 	}
+
 }
