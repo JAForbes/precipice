@@ -4,6 +4,8 @@ var systems = [
   'gestureDirection',
   'gestureDistance',
   'gestureTowardCenter',
+  'gestureDuration',
+  'gestureVelocity',
   'drawMouse',
   'drawGesture',
 

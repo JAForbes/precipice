@@ -31,16 +31,30 @@ Systems = {
   gestureDistance: function(){
     E('Gesture').each(function(gesture,id){
 
-        gesture.distance = _.distance(gesture.start,gesture.end);
+        gesture.distance || (gesture.distance = _.distance(gesture.start,gesture.end));
     });
+  },
+
+  gestureDuration: function(){
+    E('Gesture').each(function(gesture,id){
+      gesture.duration || (gesture.duration = gesture.end.time - gesture.start.time);
+    })
+  },
+
+  gestureVelocity: function(){
+    E('Gesture').each(function(gesture,id){
+      gesture.velocity || (gesture.velocity = gesture.distance / gesture.duration);
+    })
   },
 
   gestureTowardCenter: function(){
     E('Gesture').each(function(gesture,id){
-      var d = gesture.direction;
-      var initalDistance = _.distance({x:0,y:0},gesture.start);
-      var finalDistance = _.distance({x:0,y:0},gesture.end);
-      gesture.towardCenter = finalDistance < initalDistance;
+      if(!gesture.towardCenter){
+        var d = gesture.direction;
+        var initalDistance = _.distance({x:0,y:0},gesture.start);
+        var finalDistance = _.distance({x:0,y:0},gesture.end);
+        gesture.towardCenter = finalDistance < initalDistance;
+      }
     })
   },
 
