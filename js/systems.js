@@ -59,7 +59,7 @@ Systems = {
 
   gestureVelocity: function(){
     E('Gesture').each(function(gesture,id){
-      gesture.velocity || (gesture.velocity = gesture.distance / gesture.duration);
+      gesture.velocity || (gesture.velocity = gesture.distance / (gesture.duration/10));
     })
   },
 
@@ -75,30 +75,22 @@ Systems = {
     })
   },
 
-	drawPosition: function(){
-		E('Position').each(function(mouse){
+	drawCircle: function(){
+		E('Circle').each(function(circle,e){
+      var position = E('Position',e)
 			var con = E('Canvas').sample().con
-      con.fillStyle = mouse.down && 'red' || 'blue'
-			con.fillRect(mouse.x-10,mouse.y-10,20,20)
+      con.beginPath()
+      con.arc(position.x, position.y, circle.radius, 0, 2*Math.PI, false)
+			con.stroke();
 
 		})
 	},
-
-  drawGesture: function(){
-    E('Gesture').each(function(gesture,id){
-      var con = E('Canvas').sample().con
-      var start = gesture.start;
-      var end = gesture.end;
-			con.fillRect(start.x-10,start.y-10,20,20)
-      con.fillRect(end.x-10,end.y-10,20,20)
-    })
-  },
 
   gestureShoot: function () {
     E('GestureShoot').each(function(shooter,e){
       E('Gesture').each(function(gesture){
         if(!gesture.towardCenter){
-          E(e,'Shoot',{at: gesture.end, velocity: gesture.velocity})  
+          E(e,'Shoot',{at: gesture.end, velocity: gesture.velocity})
         }
       })
     })
@@ -113,7 +105,8 @@ Systems = {
       var u = _.unitVector(direction);
       var projectile = E({
         Position: _(position).clone(),
-        Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity}
+        Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity},
+        Circle: {radius: 50/shoot.velocity}
       })
     })
   },

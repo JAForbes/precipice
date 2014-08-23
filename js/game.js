@@ -10,8 +10,7 @@ var systems = [
 	'gestureShoot',
 	'move',
 	'shoot',
-	'drawPosition',
-	'drawGesture',
+	'drawCircle',
 	'cleanUp',
 ]
 
