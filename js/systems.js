@@ -94,6 +94,8 @@ Systems = {
       con.fillRect(end.x-10,end.y-10,20,20)
     })
   },
+
+  
   
   shoot: function() {
     E('Shoot').each(function(shoot,e){
