@@ -16,15 +16,21 @@ function now(){
 <script>
 
 gameID = E({
-	Canvas: { el: can, width: 1, height: 0.9, con: can.getContext('2d') },
+	Canvas: { el: can, width: 1, height: 1, con: can.getContext('2d') },
 	Mouse: { x: can.width/2, y: can.height/2, },
 	Paused: { paused: false },
-	Screen: { width: 0, height: 0}
+	Screen: { width: 0, height: 0},
 })
 
+home = E({
+    Position: {x: can.width/2, y:can.height/2},
+    Velocity: {x: 0,y:0},
+    LockPosition: {position: 'center'},
+})
 
 function updateScreen(){
-    var $el = $('body');
+    console.log('updateScreen')
+    var $el = $(window);
     var w = $el.width()
     var h = $el.height();
     var screen = E('Screen',gameID)
@@ -32,8 +38,10 @@ function updateScreen(){
     screen.height = h;
 }
 
-$('body').change(updateScreen)
+$(window).resize(updateScreen)
 updateScreen()
+
+
 
 can.onmousemove = function (e) {
 	var mouse = E('Mouse',gameID);
@@ -44,13 +52,11 @@ can.onmousemove = function (e) {
 can.onmousedown = function(e){
     var mouse = E('Mouse',gameID);
     mouse.down = true;
-    console.log(mouse)
 }
 
 can.onmouseup = function(e){
     var mouse = E('Mouse',gameID);
     mouse.down = false;
-    console.log(mouse)
 }
 
 

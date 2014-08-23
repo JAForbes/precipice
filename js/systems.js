@@ -5,9 +5,25 @@ Systems = {
       var screen = E('Screen',e);
 
 			can.el.width = screen.width*can.width
-			can.el.height = screen.width*can.height
+			can.el.height = screen.height*can.height
 		});
 	},
+
+  lockPosition: function(){
+    E('LockPosition').each(function(lockPosition,e){
+      var screen = E('Screen').sample()
+      var positions = {
+        center: { x: screen.width /2 , y: screen.height /2 }
+      }
+
+      var place = positions[lockPosition.position];
+      if(place){
+        var position = E('Position',e);
+        position.x = place.x;
+        position.y = place.y;
+      }
+    })
+  },
 
   recordGesture: function(){
     E('Mouse').each(function(mouse,id){
@@ -59,8 +75,9 @@ Systems = {
     })
   },
 
-	drawMouse: function(){
-		E('Mouse').each(function(mouse){
+
+	drawPosition: function(){
+		E('Position').each(function(mouse){
 			var con = E('Canvas').sample().con
       con.fillStyle = mouse.down && 'red' || 'blue'
 			con.fillRect(mouse.x-10,mouse.y-10,20,20)
@@ -77,9 +94,33 @@ Systems = {
       con.fillRect(end.x-10,end.y-10,20,20)
     })
   },
+  
+  shoot: function() {
+    E('Shoot').each(function(shoot,e){
+      console.log('Shoot')
+      var at = shoot.at;
+      var position = E('Position',e);
+      var center = {x: can.width/2, y: can.height/2};
+      var direction = _.direction(position,at);
+      var u = _.unitVector(direction);
+      console.log(u,direction)
+      var projectile = E({
+        Position: center,
+        Velocity: u
+      })
+    })
+  },
+
+  move: function(){
+    E('Velocity').each(function(velocity,id) {
+      var position = E('Position',id);
+      position.x += velocity.x;
+      position.y += velocity.y;
+    })
+  },
 
   cleanUp: function(){
-
+    delete E().Shoot
   }
 
 

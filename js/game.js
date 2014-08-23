@@ -1,14 +1,17 @@
 var systems = [
 	'canvasSetup',
+	'lockPosition',
+	'move',
+	'shoot',
 	'recordGesture',
-  'gestureDirection',
-  'gestureDistance',
-  'gestureTowardCenter',
-  'gestureDuration',
-  'gestureVelocity',
-  'drawMouse',
-  'drawGesture',
-
+	'gestureDirection',
+	'gestureDistance',
+	'gestureTowardCenter',
+	'gestureDuration',
+	'gestureVelocity',
+	'drawPosition',
+	'drawGesture',
+	'cleanUp',
 ]
 
 function loop () {
