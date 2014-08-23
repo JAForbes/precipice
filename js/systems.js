@@ -10,12 +10,13 @@ Systems = {
 
   recordGesture: function(){
     E('Mouse').each(function(mouse,id){
-      if(mouse.down && !mouse.start){
-        mouse.start = {x: mouse.x, y: mouse.y}
-      } else if (mouse.up && mouse.start && !mouse.end){
-        E('Gesture',{ start: mouse.start, end: {x: mouse.x, y: mouse.y})
-        delete mouse.start
-        delete mouse.end
+      var start = E('GestureStart',id)
+      var gesture = E('Gesture',id)
+      if(mouse.down && !start.x){
+        E(id,'GestureStart',{x: mouse.x, y: mouse.y})
+      } else if (!mouse.down && start.x && !gesture.x){
+        E(id,'Gesture',{ start: start, end: {x: mouse.x, y: mouse.y}})
+        delete E().GestureStart[id]
       }
     });
   },
@@ -28,6 +29,16 @@ Systems = {
 
 		})
 	},
+
+  drawGesture: function(){
+    E('Gesture').each(function(gesture,id){
+      var con = E('Canvas').sample().con
+      var start = gesture.start;
+      var end = gesture.end;
+			con.fillRect(start.x-10,start.y-10,20,20)
+      con.fillRect(end.x-10,end.y-10,20,20)
+    })
+  },
 
   cleanUp: function(){
 

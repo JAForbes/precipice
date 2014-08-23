@@ -1,6 +1,9 @@
 var systems = [
 	'canvasSetup',
-	'drawMouse'
+	'recordGesture',
+  'drawMouse',
+  'drawGesture',
+
 ]
 
 function loop () {
