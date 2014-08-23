@@ -22,12 +22,26 @@ Systems = {
     });
   },
 
+  gestureDirection: function(){
+    E('Gesture').each(function(gesture,id){
+      gesture.direction = _.direction(gesture.start,gesture.end);
+    })
+  },
+
   gestureDistance: function(){
     E('Gesture').each(function(gesture,id){
-      if(gesture){
+
         gesture.distance = _.distance(gesture.start,gesture.end);
-      }
     });
+  },
+
+  gestureTowardCenter: function(){
+    E('Gesture').each(function(gesture,id){
+      var d = gesture.direction;
+      var initalDistance = _.distance({x:0,y:0},gesture.start);
+      var finalDistance = _.distance({x:0,y:0},gesture.end);
+      gesture.towardCenter = finalDistance < initalDistance;
+    })
   },
 
 	drawMouse: function(){

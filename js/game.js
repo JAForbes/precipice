@@ -1,6 +1,9 @@
 var systems = [
 	'canvasSetup',
 	'recordGesture',
+  'gestureDirection',
+  'gestureDistance',
+  'gestureTowardCenter',
   'drawMouse',
   'drawGesture',
 
