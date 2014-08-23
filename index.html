@@ -6,10 +6,11 @@
 
 <script src='lib/underscore.js'></script>
 <script src='lib/e.js'></script>
+<script src='lib/jquery.js'></script>
 <script>
 
 gameID = E({
-	Canvas: { el: can, width: 400, height: 400, con: can.getContext('2d') },
+	Canvas: { el: can, width: 1, height: 0.9, con: can.getContext('2d') },
 	Mouse: { x: can.width/2, y: can.height/2, },
 	Paused: { paused: false }
 })

@@ -1,10 +1,10 @@
 Systems = {
 
-
 	canvasSetup: function () {
 		E('Canvas').each(function(can,e){
-			can.el.width = can.width
-			can.el.height = can.height
+      var $body = $('body');
+			can.el.width = $body.width()*can.width
+			can.el.height = $body.width()*can.height
 		});
 	},
 
@@ -14,7 +14,6 @@ Systems = {
 			con.fillRect(mouse.x-10,mouse.y-10,20,20)
 		})
 	},
-
 
 
 }
