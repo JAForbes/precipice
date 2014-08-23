@@ -17,8 +17,21 @@ function now(){
 gameID = E({
 	Canvas: { el: can, width: 1, height: 0.9, con: can.getContext('2d') },
 	Mouse: { x: can.width/2, y: can.height/2, },
-	Paused: { paused: false }
+	Paused: { paused: false },
+	Screen: { width: 0, height: 0}
 })
+
+function updateScreen(){
+    var $el = $('body');
+    var w = $el.width()
+    var h = $el.height();
+    var screen = E('Screen',gameID)
+    screen.width = w;
+    screen.height = h;
+}
+
+$('body').change(updateScreen)
+updateScreen()
 
 can.onmousemove = function (e) {
 	var mouse = E('Mouse',gameID);

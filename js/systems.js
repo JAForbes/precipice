@@ -2,9 +2,10 @@ Systems = {
 
 	canvasSetup: function () {
 		E('Canvas').each(function(can,e){
-      var $body = $('body');
-			can.el.width = $body.width()*can.width
-			can.el.height = $body.width()*can.height
+      var screen = E('Screen',e);
+
+			can.el.width = screen.width*can.width
+			can.el.height = screen.width*can.height
 		});
 	},
 
@@ -17,6 +18,14 @@ Systems = {
       } else if (!mouse.down && start.x && !gesture.x){
         E(id,'Gesture',{ start: start, end: {x: mouse.x, y: mouse.y, time: now() }})
         delete E().GestureStart[id]
+      }
+    });
+  },
+
+  gestureDistance: function(){
+    E('Gesture').each(function(gesture,id){
+      if(gesture){
+        gesture.distance = _.distance(gesture.start,gesture.end);
       }
     });
   },
