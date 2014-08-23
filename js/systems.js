@@ -11,11 +11,10 @@ Systems = {
 	drawMouse: function(){
 		E('Mouse').each(function(mouse){
 			var con = E('Canvas').sample().con
+      con.fillStyle = mouse.down && 'red' || 'blue'
 			con.fillRect(mouse.x-10,mouse.y-10,20,20)
 		})
 	},
-
-
 
 
 }

@@ -21,14 +21,16 @@ can.onmousemove = function (e) {
     mouse.y = e.offsetY
 }
 
-con.onmousedown = function(e){
+can.onmousedown = function(e){
     var mouse = E('Mouse',gameID);
     mouse.down = true;
+    console.log(mouse)
 }
 
-con.onmouseup = function(e){
+can.onmouseup = function(e){
     var mouse = E('Mouse',gameID);
     mouse.down = false;
+    console.log(mouse)
 }
 
 </script>
