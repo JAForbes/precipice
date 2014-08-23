@@ -1,13 +1,24 @@
+<link rel='stylesheet' href='css/style.css'>
 <center>
 	<canvas id='can'></canvas>
 </center>
+
+
 <script src='lib/underscore.js'></script>
 <script src='lib/e.js'></script>
 <script>
 
-canvas = E({
-	Canvas: { el: can, width: 400, height: 400, con: can.getContext('2d') }
+gameID = E({
+	Canvas: { el: can, width: 400, height: 400, con: can.getContext('2d') },
+	Mouse: { x: can.width/2, y: can.height/2, },
+	Paused: { paused: false }
 })
+
+can.onmousemove = function (e) {
+	var mouse = E('Mouse',gameID);
+	var coords = _(e).pick('offsetX','offsetY');
+	_(mouse).extend(coords);
+}
 
 </script>
 <script src='js/systems.js'></script>
