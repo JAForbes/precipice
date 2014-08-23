@@ -160,7 +160,7 @@ Systems = {
   useShootCharge: function(){
     E('Shoot').each(function(shoot,e){
       var charge = E('Charge',e);
-      charge.charge -= 5/shoot.velocity;
+      charge.charge -= 50/shoot.velocity;
     })
   },
 
