@@ -8,6 +8,11 @@
 <script src='lib/e.js'></script>
 <script src='lib/jquery.js'></script>
 <script>
+function now(){
+    return new Date().getTime()
+}
+</script>
+<script>
 
 gameID = E({
 	Canvas: { el: can, width: 1, height: 0.9, con: can.getContext('2d') },
