@@ -21,6 +21,16 @@ can.onmousemove = function (e) {
     mouse.y = e.offsetY
 }
 
+con.onmousedown = function(e){
+    var mouse = E('Mouse',gameID);
+    mouse.down = true;
+}
+
+con.onmouseup = function(e){
+    var mouse = E('Mouse',gameID);
+    mouse.down = false;
+}
+
 </script>
 <script src='js/systems.js'></script>
 <script src='js/game.js'></script>
