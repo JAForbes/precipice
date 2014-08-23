@@ -145,6 +145,20 @@ Systems = {
     })
   },
 
+  gestureShield: function() {
+    E('GestureShield').each(function(gestureShield,e){
+      E('Gesture').each(function(gesture){
+        if(gesture.towardCenter && gesture.velocity > 1){
+          var center = {x: can.width/2, y: can.height/2};
+          var y = gesture.start.y - center.y;
+          var x = gesture.start.x - center.x;
+          var angle = Math.atan2(y,x)
+          E(e,'Shield',{ coverageRatio: 1/(gesture.velocity), theta: angle, strength: gesture.velocity/2})
+        }
+      })
+    })
+  },
+
   shoot: function() {
     E('Shoot').each(function(shoot,e){
       var at = shoot.at;
@@ -160,10 +174,38 @@ Systems = {
     })
   },
 
+  drawShield: function(){
+    E('Shield').each(function(shield,e){
+      var con = E('Canvas').sample().con;
+      con.beginPath()
+      var position = E('Position',e);
+      var circle = E('Circle',e);//must be larger than this
+      var startAngle = -shield.theta/2 * shield.coverageRatio;
+      var endAngle = shield.theta/2 * shield.coverageRatio;
+      var halfCircle = Math.PI;
+      var coverage = shield.coverageRatio * halfCircle;
+      con.lineWidth = shield.strength * 2;
+      con.arc(position.x, position.y, circle.radius + shield.strength *3, shield.theta - coverage ,shield.theta  + coverage, false)
+      
+      con.stroke();
+    });
+  },
+
   useShootCharge: function(){
     E('Shoot').each(function(shoot,e){
       var charge = E('Charge',e);
       charge.charge -= 50/shoot.velocity;
+    })
+  },
+
+  useShieldCharge: function(){
+    E('Gesture').each(function(gesture,e){
+      if(gesture.towardCenter && gesture.velocity > 1){
+        E('Shield').each(function(shield,e){
+          var charge = E('Charge',e);
+          charge.charge -= 50/gesture.velocity;
+        })
+      }
     })
   },
 

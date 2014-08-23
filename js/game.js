@@ -8,13 +8,16 @@ var systems = [
 	'gestureDuration',
 	'gestureVelocity',
 	'gestureShoot',
+	'gestureShield',
 	'move',
 	'shoot',
 	'useShootCharge',
+	'useShieldCharge',
 	'drawCircle',
 	'spikeyCharge',
 	'spikeyCirclePath',
 	'drawPath',
+	'drawShield',
 	'cleanUp',
 ]
 
