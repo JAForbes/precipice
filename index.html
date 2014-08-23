@@ -16,8 +16,8 @@ gameID = E({
 
 can.onmousemove = function (e) {
 	var mouse = E('Mouse',gameID);
-	var coords = _(e).pick('offsetX','offsetY');
-	_(mouse).extend(coords);
+	mouse.x = e.offsetX
+    mouse.y = e.offsetY
 }
 
 </script>

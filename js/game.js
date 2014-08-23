@@ -1,5 +1,6 @@
 var systems = [
-	'canvasSetup'
+	'canvasSetup',
+	'drawMouse'
 ]
 
 function loop () {
