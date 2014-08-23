@@ -104,7 +104,7 @@ Systems = {
   spikeyCharge: function(){
     E('SpikeyCharge').each(function(spikeyCharge,e){
       var charge = E('Charge',e);
-      var spikeyCircle = {radius: charge.charge, spikes: charge.charge, randomAngle: 0.25 / charge.charge, randomRadius:charge.charge/10}
+      var spikeyCircle = {radius: charge.charge, spikes: Math.floor(charge.charge), randomAngle: 0.25 / charge.charge, randomRadius:charge.charge/10}
       
       E(e,'SpikeyCircle',spikeyCircle)
 
@@ -135,7 +135,7 @@ Systems = {
   gestureShoot: function () {
     E('GestureShoot').each(function(shooter,e){
       E('Gesture').each(function(gesture){
-        if(!gesture.towardCenter){
+        if(!gesture.towardCenter && gesture.velocity > 1){
           E(e,'Shoot',{at: gesture.end, velocity: gesture.velocity})
         }
       })
@@ -154,6 +154,13 @@ Systems = {
         Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity},
         Circle: {radius: 50/shoot.velocity}
       })
+    })
+  },
+
+  useShootCharge: function(){
+    E('Shoot').each(function(shoot,e){
+      var charge = E('Charge',e);
+      charge.charge -= 5/shoot.velocity;
     })
   },
 

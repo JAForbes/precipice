@@ -10,6 +10,7 @@ var systems = [
 	'gestureShoot',
 	'move',
 	'shoot',
+	'useShootCharge',
 	'drawCircle',
 	'spikeyCharge',
 	'spikeyCirclePath',
