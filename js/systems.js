@@ -97,8 +97,9 @@ Systems = {
   gestureShoot: function () {
     E('GestureShoot').each(function(shooter,e){
       E('Gesture').each(function(gesture){
-        E(e,'Shoot',{at: gesture.end, velocity: gesture.velocity})
-        console.log(E('Shoot').sample())
+        if(!gesture.towardCenter){
+          E(e,'Shoot',{at: gesture.end, velocity: gesture.velocity})  
+        }
       })
     })
   },
