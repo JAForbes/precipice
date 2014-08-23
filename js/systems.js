@@ -86,6 +86,52 @@ Systems = {
 		})
 	},
 
+  drawPath: function(){
+    E('Path').each(function(path,e){
+      var pos = E('Position',e);
+      var canvas = E('Canvas').sample();
+      var con = canvas.con;
+      con.beginPath()
+      con.strokeStyle = 'black';
+      con.moveTo(path[0].x+pos.x,path[0].y+pos.y);
+      _(path.slice(1)).each(function(point){
+        con.lineTo(point.x+pos.x, point.y+pos.y)
+      })
+      con.stroke();
+    })
+  },
+
+  spikeyCharge: function(){
+    E('SpikeyCharge').each(function(spikeyCharge,e){
+      var charge = E('Charge',e);
+      var spikeyCircle = {radius: charge.charge, spikes: charge.charge, randomAngle: 0.25 / charge.charge, randomRadius:charge.charge/10}
+      
+      E(e,'SpikeyCircle',spikeyCircle)
+
+    })
+  },
+
+  spikeyCirclePath: function(){
+      E('SpikeyCircle').map(function(spikey,e){
+        var pos = E('Position',e);
+        var fullCircle = Math.PI * 2;
+        var division = fullCircle / (spikey.spikes * 2);
+        var path = [];
+        _(spikey.spikes * 2).times(function(i){
+          var angle = i * division;
+          var r = spikey.radius;
+          var randomAngle = (2*Math.random()-1) * spikey.randomAngle;
+          var randomRadius = (2*Math.random()-1) * spikey.randomRadius;
+          if(i % 2 == 0){
+            r = spikey.radius / 3;
+          }
+          path.push({x: Math.cos(randomAngle +angle) * (r-randomRadius),y:  Math.sin(randomAngle +angle) * (r-randomRadius) })
+        })
+        path.push(path[0])
+        E(e,'Path',path)
+      })
+  },
+
   gestureShoot: function () {
     E('GestureShoot').each(function(shooter,e){
       E('Gesture').each(function(gesture){

@@ -1,11 +1,11 @@
 LD30
 ====
 
-How does the sytem know who is shooting?  Is it hardcoded?
+What is Charge, and where is it stored?
 ----------------------------------------------------------
 
-There is only one shooter.  But I guess it depends on who owns the gesture.
-If a player owns a gesture, then you know it is them who shoots on gesture
+The player has a charge.  The charge is reduced when the player shoots or uses their shield.
 
-Or you could just give shoot on gesture as a component to any to entity and they will all shoot toward a gesture in unison
-Which will probably never be useful but that is cool
+The charge recharges back up to the original size of the player.
+
+The charge rate has an inverse relationship to the charge level.  A high charge recharges slowly, a low charge recharges quickly.
