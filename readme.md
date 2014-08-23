@@ -30,3 +30,5 @@ The Top Down Stealth Game
 For now: I think the touch shooter wins.
 
 I reserve the right to completely change my mind as I go.
+
+I can't test the touch on my surface, as I had to turn off that screen to get chronolapse to work.  So I'll develop off the mouse and port to touch later.
