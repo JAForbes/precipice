@@ -11,7 +11,7 @@ var systems = [
 	'gestureShield',
 	'move',
 	'shieldRadialCollision',
-	'logIntersection',
+	'dieOnIntersection',
 	'shoot',
 	'useShootCharge',
 	'useShieldCharge',

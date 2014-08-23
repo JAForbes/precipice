@@ -201,6 +201,12 @@ Systems = {
 
   dieOnIntersection: function(){
     E('Intersected').each(function(intersected,e){
+
+      E('DieOnCollision').each(function(die,e2){
+        if(e2 == e){
+          E.remove(e)  
+        }
+      })
       
     })
   },
