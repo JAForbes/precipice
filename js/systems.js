@@ -75,7 +75,6 @@ Systems = {
     })
   },
 
-
 	drawPosition: function(){
 		E('Position').each(function(mouse){
 			var con = E('Canvas').sample().con
@@ -95,20 +94,25 @@ Systems = {
     })
   },
 
-  
-  
+  gestureShoot: function () {
+    E('GestureShoot').each(function(shooter,e){
+      E('Gesture').each(function(gesture){
+        E(e,'Shoot',{at: gesture.end, velocity: gesture.velocity})
+        console.log(E('Shoot').sample())
+      })
+    })
+  },
+
   shoot: function() {
     E('Shoot').each(function(shoot,e){
-      console.log('Shoot')
       var at = shoot.at;
       var position = E('Position',e);
       var center = {x: can.width/2, y: can.height/2};
       var direction = _.direction(position,at);
       var u = _.unitVector(direction);
-      console.log(u,direction)
       var projectile = E({
-        Position: center,
-        Velocity: u
+        Position: _(position).clone(),
+        Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity}
       })
     })
   },
@@ -123,6 +127,7 @@ Systems = {
 
   cleanUp: function(){
     delete E().Shoot
+    delete E().Gesture
   }
 
 

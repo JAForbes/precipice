@@ -26,10 +26,11 @@ home = E({
     Position: {x: can.width/2, y:can.height/2},
     Velocity: {x: 0,y:0},
     LockPosition: {position: 'center'},
+    GestureShoot: {},
+    GestureShield: {},
 })
 
 function updateScreen(){
-    console.log('updateScreen')
     var $el = $(window);
     var w = $el.width()
     var h = $el.height();
