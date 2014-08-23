@@ -35,3 +35,12 @@ function loop () {
 	requestAnimationFrame(loop)
 }
 loop()
+
+
+function Enemy(){
+	return {
+	  Position: {x:0 ,y:400},
+	  Velocity: {x:2, y: 0},
+	  Circle: {radius : 20}
+	}
+}

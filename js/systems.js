@@ -123,7 +123,7 @@ Systems = {
           var randomAngle = (2*Math.random()-1) * spikey.randomAngle;
           var randomRadius = (2*Math.random()-1) * spikey.randomRadius;
           if(i % 2 == 0){
-            r = spikey.radius / 3;
+            r = spikey.radius / 1.5;
           }
           path.push({x: Math.cos(randomAngle +angle) * (r-randomRadius),y:  Math.sin(randomAngle +angle) * (r-randomRadius) })
         })
@@ -179,13 +179,13 @@ Systems = {
       var con = E('Canvas').sample().con;
       con.beginPath()
       var position = E('Position',e);
-      var circle = E('Circle',e);//must be larger than this
+      var charge = E('Charge',e);//must be larger than this
       var startAngle = -shield.theta/2 * shield.coverageRatio;
       var endAngle = shield.theta/2 * shield.coverageRatio;
       var halfCircle = Math.PI;
       var coverage = shield.coverageRatio * halfCircle;
       con.lineWidth = shield.strength * 2;
-      con.arc(position.x, position.y, circle.radius + shield.strength *3, shield.theta - coverage ,shield.theta  + coverage, false)
+      con.arc(position.x, position.y, charge.charge + 5+ shield.strength *5, shield.theta - coverage ,shield.theta  + coverage, false)
       
       con.stroke();
     });
