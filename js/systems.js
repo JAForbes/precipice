@@ -93,6 +93,7 @@ Systems = {
       var con = canvas.con;
       con.beginPath()
       con.strokeStyle = 'black';
+
       con.moveTo(path[0].x+pos.x,path[0].y+pos.y);
       _(path.slice(1)).each(function(point){
         con.lineTo(point.x+pos.x, point.y+pos.y)
@@ -104,10 +105,9 @@ Systems = {
   spikeyCharge: function(){
     E('SpikeyCharge').each(function(spikeyCharge,e){
       var charge = E('Charge',e);
-      var spikeyCircle = {radius: charge.charge, spikes: Math.floor(charge.charge), randomAngle: 0.25 / charge.charge, randomRadius:charge.charge/10}
+      var spikeyCircle = {radius: charge.charge, spikes: Math.max(8,Math.floor(charge.charge)), randomAngle: 0.25 / charge.charge, randomRadius:charge.charge/10}
       
       E(e,'SpikeyCircle',spikeyCircle)
-
     })
   },
 
@@ -128,7 +128,10 @@ Systems = {
           path.push({x: Math.cos(randomAngle +angle) * (r-randomRadius),y:  Math.sin(randomAngle +angle) * (r-randomRadius) })
         })
         path.push(path[0])
-        E(e,'Path',path)
+        if(path.length > 1){
+          E(e,'Path',path)
+        }
+        
       })
   },
 

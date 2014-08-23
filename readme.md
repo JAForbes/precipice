@@ -1,11 +1,15 @@
 LD30
 ====
 
-What is Charge, and where is it stored?
-----------------------------------------------------------
+What is a shield?
+-----------------
 
-The player has a charge.  The charge is reduced when the player shoots or uses their shield.
+Shield has an angle, strength and a percentage of coverage
+All are related to the charge uses to create it
 
-The charge recharges back up to the original size of the player.
+The charge is based on the velocity of the gesture
 
-The charge rate has an inverse relationship to the charge level.  A high charge recharges slowly, a low charge recharges quickly.
+The shield will block incoming attacks.
+
+A small shield is thicker and will survive more hits
+A large shield is thinner and will survive less hits, but greater coverage
