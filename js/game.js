@@ -15,9 +15,9 @@ var systems = [
 	'shoot',
 	'useShootCharge',
 	'useShieldCharge',
-	'drawCircle',
+	'drawArc',
 	'spikeyCharge',
-	'spikeyCirclePath',
+	'spikeyArcPath',
 	'drawPath',
 	'drawShield',
 	'cleanUp',
@@ -43,7 +43,7 @@ function Enemy(){
 	return {
 	  Position: {x: 0 ,y:can.height/2},
 	  Velocity: {x:2, y: 0},
-	  Circle: {radius : 20},
+	  Arc: {radius : 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
 	  DieOnCollision: {}
 	}
 }

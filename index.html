@@ -27,9 +27,15 @@ home = E({
     Velocity: {x: 0,y:0},
     LockPosition: {position: 'center'},
     GestureShoot: {},
-    GestureShield: {},
     Charge: { charge: 150 },
     SpikeyCharge: { spikes: 24, randomAngle: 0.1, randomRadius: 25}
+})
+
+shield = E({
+    Arc : { radius :0, ratio: 0, theta: { start: 0, end: 0}},
+    GestureShield: {},
+    Charge: E('Charge',home),
+    Position: E('Position',home)
 })
 
 function updateScreen(){

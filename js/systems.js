@@ -75,12 +75,12 @@ Systems = {
     })
   },
 
-	drawCircle: function(){
-		E('Circle').each(function(circle,e){
+	drawArc: function(){
+		E('Arc').each(function(arc,e){
       var position = E('Position',e)
 			var con = E('Canvas').sample().con
       con.beginPath()
-      con.arc(position.x, position.y, circle.radius, 0, 2*Math.PI, false)
+      con.arc(position.x, position.y, arc.radius, arc.theta.start, arc.theta.end, false)
 			con.stroke();
 
 		})
@@ -105,14 +105,14 @@ Systems = {
   spikeyCharge: function(){
     E('SpikeyCharge').each(function(spikeyCharge,e){
       var charge = E('Charge',e);
-      var spikeyCircle = {radius: charge.charge, spikes: Math.max(8,Math.floor(charge.charge)), randomAngle: 0.25 / charge.charge, randomRadius:charge.charge/10}
+      var spikeyArc = {radius: charge.charge, spikes: Math.max(8,Math.floor(charge.charge)), randomAngle: 0.25 / charge.charge, randomRadius:charge.charge/10}//todo move radius into arc
       
-      E(e,'SpikeyCircle',spikeyCircle)
+      E(e,'SpikeyArc',spikeyArc)
     })
   },
 
-  spikeyCirclePath: function(){
-      E('SpikeyCircle').map(function(spikey,e){
+  spikeyArcPath: function(){
+      E('SpikeyArc').map(function(spikey,e){
         var pos = E('Position',e);
         var fullCircle = Math.PI * 2;
         var division = fullCircle / (spikey.spikes * 2);
@@ -160,8 +160,16 @@ Systems = {
           var strength = gesture.velocity/2;
           var halfCircle = Math.PI;
           var coverage = coverageRatio * halfCircle;
+          var arc = E('Arc',e);
 
-          E(e,'Shield',{ coverage: coverage, coverageRatio: coverageRatio, theta: {start: _.fmod(angle - coverage,2*Math.PI), end: _.fmod(angle + coverage,2*Math.PI)}, strength: strength, radius: charge.charge + 5+ strength *5 })
+          _(arc).extend({
+            ratio: coverage,
+            theta: {start: _.fmod(angle - coverage,2*Math.PI), end: _.fmod(angle + coverage,2*Math.PI)}, //TODO don't need FMOD anymore?
+            radius: charge.charge + 5+ strength *5
+          })
+
+          
+          E(e,'Shield',{ strength: strength })
         }
       })
     })
@@ -171,7 +179,7 @@ Systems = {
 
           
     E('Shield').each(function(shield,e){
-      E('Circle').each(function(pos,e2){
+      E('Arc').each(function(pos,e2){
         if(e != e2){
           check(shield,e,e2)
 
@@ -182,17 +190,18 @@ Systems = {
     
     function check(shield,shieldE,otherE){
       var shieldPos = E('Position',shieldE);
+      var shieldArc = E('Arc',shieldE)
       var otherPos = E('Position',otherE);
-      var otherCircle = E('Circle',otherE);
+      var otherArc = E('Arc',otherE);
       //step 1: check if within radius
       var d = _.distance(shieldPos,otherPos);
-      var r1 = shield.radius;
-      var r2 = otherCircle.radius;
+      var r1 = shieldArc.radius;
+      var r2 = otherArc.radius;
       var isWithinCircle = d < r1+r2;
       //step 2: check if center within start and end theta
       var offsetPos = _.direction(shieldPos,otherPos);
       var otherTheta = Math.atan2(offsetPos.y,offsetPos.x);
-      var isWithinShieldArc = _.between(otherTheta,shield.theta.start,shield.theta.end,Math.PI*2)
+      var isWithinShieldArc = _.between(otherTheta,shieldArc.theta.start,shieldArc.theta.end,Math.PI*2)
 
       isWithinShieldArc && isWithinCircle && E(otherE,'Intersected',{against:shieldE})
     }
@@ -221,7 +230,7 @@ Systems = {
       var projectile = E({
         Position: _(position).clone(),
         Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity},
-        Circle: {radius: 50/shoot.velocity}
+        Arc: {radius: 50/shoot.velocity, ratio: 1, theta: { start: 0, end: Math.PI * 2} }//todo, just define the center and let other systems figure out start,end
       })
     })
   },
@@ -232,7 +241,8 @@ Systems = {
       con.beginPath()
       var position = E('Position',e);
       con.lineWidth = shield.strength * 2;
-      con.arc(position.x, position.y, shield.radius, shield.theta.start,shield.theta.end, false)
+      var arc = E('Arc',e);
+      con.arc(position.x, position.y, arc.radius, arc.theta.start,arc.theta.end, false)
       
       con.stroke();
     });
