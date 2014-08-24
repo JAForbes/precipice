@@ -41,7 +41,7 @@ function loop () {
 			if(system){
 				system()
 			}
-		})	
+		})
 	}
 	
 	requestAnimationFrame(loop)

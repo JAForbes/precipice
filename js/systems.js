@@ -92,8 +92,8 @@ Systems = {
     E('FrameScale').each(function(frameScale,e){
       var frame = E('Frame',e);
       var value = E(frameScale.component,e)[frameScale.key]
-      value *= (frameScale.multiplier || 1)
-      frame.scale = value;
+      var before = value();
+      frame.scale = value() * (frameScale.multiplier || 1);
     })
   },
 
@@ -180,7 +180,7 @@ Systems = {
   depleteShield: function(){
     E('Shield').each(function(shield,e){
       var strength = E('Strength',e)
-      if(strength.strength <= 0){
+      if(strength.strength() <= 0){
         var arc = E('Arc',e);
         _(arc).extend({ radius: 0, ratio: 0, theta: { start: 0, end: 0} })
       }
@@ -243,7 +243,7 @@ Systems = {
   arcStrength: function(){
     E('ArcStrength').each(function(arc,e){
       var arc = E('Arc',e);
-      arc.radius = E('Strength',e).strength;
+      arc.radius = E('Strength',e).strength();
     })
   },
 
@@ -263,11 +263,9 @@ Systems = {
           var health = E('Strength',e);
           var strength = E('Strength',collision.against)
           
-          health.strength -= strength.strength
-          var state = E('State',e);
-          state.action = 'hurt';
-          console.log(state,e)
-          if(health.strength < 0){
+          health.strength( health.strength() - strength.strength() ) 
+
+          if(health.strength() < 0){
             E(e,'Remove',{})
           }
         }
@@ -283,7 +281,7 @@ Systems = {
       var direction = _.direction(position,at);
       var u = _.unitVector(direction);
       var arc = E('Arc',e);
-      var strength = E('Strength',e)
+      var strength = E('Strength',e)()
       var clampArc = Math.min(50/shoot.velocity,strength.strength/2) * 5;
       var projectile = E({
         Position: {x: position.x + (u.x*(arc.radius+clampArc) * 2), y: position.y + (u.y *(arc.radius+clampArc) * 2)},
@@ -291,7 +289,7 @@ Systems = {
         Arc: {radius: clampArc*2, ratio: 1, theta: { start: 0, end: Math.PI * 2} }, //todo, just define the center and let other systems figure out start,end,
         //RenderArc: {},
         FrameScale: { component: 'Strength', key: 'strength', multiplier: 0.5 },
-        Strength: { strength: clampArc/5},
+        Strength: o({ strength: clampArc/5}),
         DamageOnCollision: { inCircle: true, inArc: false },
         Frame: {scale:clampArc/15, playspeed: 1/3, frame: new Frame().reset(energy_ball) },
       })
@@ -346,7 +344,7 @@ Systems = {
             radius: protecteeArc.radius *1.2
           })
 
-          E('Strength',e).strength  = strength;
+          E('Strength',e).strength(strength);
           E(e,'Shield',{ protect: gestureShield.protect })
         }
       })
@@ -356,7 +354,7 @@ Systems = {
   drawShield: function(){
     E('Shield').each(function(shield,e){
       var con = E('Canvas').sample().con;
-      var strength = E('Strength',e);
+      var strength = E('Strength',e)();
       con.beginPath()
       var position = E('Position',e);
       con.lineWidth = strength.strength/4  + (strength.strength/8* _.cycle(200))
@@ -387,7 +385,7 @@ Systems = {
           Velocity: {x:0, y: 0},
           Arc: {radius : 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
           DieOnCollision: { inCircle: true, inArc: false },
-          Strength: { strength: 50 },
+          Strength: o({ strength: 50 }),
           Weapon: { fireRate: 100, target: home, clock: 50 },
           Frame: {scale:2 , playspeed: 1/5, frame: new Frame().reset(warlock) },
         })
@@ -400,7 +398,7 @@ Systems = {
       if(gesture.towardCenter ){
         E('Shield').each(function(shield,e){
           var strength = E('Strength',shield.protect);
-          strength.strength -= gesture.duration/200;
+          strength.strength(strength.strength() -  gesture.duration/200);
         })
       }
     })

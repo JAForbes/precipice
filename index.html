@@ -9,8 +9,10 @@
 <center>
 	<canvas id='can'></canvas>
 </center>
+
 <script src='lib/underscore.js'></script>
 <script src='lib/underscore_mixins.js'></script>
+<script src='lib/o.js'></script>
 <script src='lib/e.js'></script>
 <script src='lib/jquery.js'></script>
 <script src='lib/frame.js'></script>
@@ -35,7 +37,7 @@ home = E({
     Position: {x: can.width/2, y:can.height/2},
     Velocity: {x: 0,y:0},
     LockPosition: {position: 'center'},
-    Strength: { strength: 150 },
+    Strength: o({ strength: 150 }),
     Arc: { radius: 150, ratio: 0, theta: { start:0 , end: 2*Math.PI} },
     Frame: {scale:10 , playspeed: 1/5, frame: new Frame().reset(wormhole) },
     GestureShoot: {},
@@ -50,16 +52,14 @@ defender = E({
     Frame: {scale:3 , playspeed: 1/10, frame: new Frame().reset(wizard) },
     State: {action:'idle'},
     MouseState: { down: 'cast' },
-    Strength: E('Strength',home),
 })
 
 shield = E({
     Arc : { radius: 0, ratio: 0, theta: { start: 0, end: 0} },
     GestureShield: { protect: home },
     Position: E('Position',home),
-    Strength: { strength: 0 },
+    Strength: o({ strength: 0 }),
     DamageOnCollision: { inCircle: true, inArc: true },
-
 })
 
 
