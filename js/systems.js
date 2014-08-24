@@ -413,7 +413,12 @@ Systems = {
       E({
           Position: position,
           Frame: {scale:1.5 , playspeed: 1/5, frame: new Frame().reset(villagers) },
-          Velocity: {x: u.x*1, y:u.y*1}
+          Velocity: {x: u.x*1, y:u.y*1},
+          Arc: { radius: 5, ratio: 1, theta: {start: 0, end: 2*Math.PI }},
+          DieOnCollision: { inCircle: true, inArc: false },
+          RenderArc: {},
+          Strength: o({ strength: 0 }),
+
       })
     }
   }, 
