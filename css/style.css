@@ -18,6 +18,14 @@ img {
 	color:white;
 	font-family: Helvetica;
 }
-.villager_count img {
-	display: block;
+.credits {
+	width: 100%;
+	position: absolute;
+	bottom: 1em;
+	text-align: center;
+	color:white;
+	font-family: Helvetica;
+}
+a:visited {
+	color: white;
 }
