@@ -10,8 +10,8 @@ var systems = [
 	'gestureShoot',
 	'gestureShield',
 	'move',
-	'shieldRadialCollision',
-	'dieOnIntersection',
+	'arcCollision',
+	'dieOnArcCollision',
 	'shoot',
 	'useShootCharge',
 	'useShieldCharge',
@@ -44,7 +44,7 @@ function Enemy(){
 	  Position: {x: 0 ,y:can.height/2},
 	  Velocity: {x:2, y: 0},
 	  Arc: {radius : 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
-	  DieOnCollision: {},
+	  DieOnCollision: { inCircle: true, inArc: false },
 	  RenderArc: {}
 	}
 }

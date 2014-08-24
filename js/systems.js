@@ -182,47 +182,44 @@ Systems = {
     })
   },
 
-  shieldRadialCollision: function(){
+  arcCollision: function(){
 
           
-    E('Shield').each(function(shield,e){
-      E('Arc').each(function(pos,e2){
+    E('Arc').each(function(arc1,e){
+      E('Arc').each(function(arc2,e2){
         if(e != e2){
-          check(shield,e,e2)
+          check(arc1,arc2,e,e2)
 
 
         }
       })  
     })
     
-    function check(shield,shieldE,otherE){
-      var shieldPos = E('Position',shieldE);
-      var shieldArc = E('Arc',shieldE)
-      var otherPos = E('Position',otherE);
-      var otherArc = E('Arc',otherE);
+    function check(arc1,acr2,e1,e2){
+
+      var pos1 = E('Position',e1);
+      var pos2 = E('Position',e2);
       //step 1: check if within radius
-      var d = _.distance(shieldPos,otherPos);
-      var r1 = shieldArc.radius;
-      var r2 = otherArc.radius;
+      var d = _.distance(pos1,pos2);
+      var r1 = arc1.radius;
+      var r2 = acr2.radius;
       var isWithinCircle = d < r1+r2;
       //step 2: check if center within start and end theta
-      var offsetPos = _.direction(shieldPos,otherPos);
-      var otherTheta = Math.atan2(offsetPos.y,offsetPos.x);
-      var isWithinShieldArc = _.between(otherTheta,shieldArc.theta.start,shieldArc.theta.end,Math.PI*2)
-
-      isWithinShieldArc && isWithinCircle && E(otherE,'Intersected',{against:shieldE})
+      var offsetPos = _.direction(pos1,pos2);
+      var angleFrom = Math.atan2(offsetPos.y,offsetPos.x);
+      var isWithinArc = _.between(angleFrom,arc1.theta.start,arc1.theta.end,Math.PI*2)
+      isWithinArc || isWithinCircle && E(e1,'ArcCollision',{against:e2, inArc: isWithinArc, inCircle: isWithinCircle })
     }
 
   },
 
-  dieOnIntersection: function(){
-    E('Intersected').each(function(intersected,e){
+  dieOnArcCollision: function(){
 
-      E('DieOnCollision').each(function(die,e2){
-        if(e2 == e){
-          E.remove(e)  
-        }
-      })
+    E('ArcCollision').each(function(collision,e){
+      var die = E('DieOnCollision',e);
+      if(!_(die).isEmpty() && die.inArc == collision.inArc && die.inCircle == collision.inCircle){
+        E.remove(e)    
+      } 
       
     })
   },
