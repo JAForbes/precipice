@@ -221,6 +221,16 @@ Systems = {
     })
   },
 
+  depleteShield: function(){
+    E('Shield').each(function(shield,e){
+      var strength = E('Strength',e)
+      if(strength.strength <= 0){
+        var arc = E('Arc',e);
+        _(arc).extend({ radius: 0, ratio: 0, theta: { start: 0, end: 0} })
+      }
+    });
+  },
+
   arcCollision: function(){
 
           
