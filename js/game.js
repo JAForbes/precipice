@@ -46,6 +46,10 @@ function loop () {
 				system()
 			}
 		})
+	} else {
+		_.delay(function(){
+			location.reload()
+		},4000)
 	}
 	
 	requestAnimationFrame(loop)
