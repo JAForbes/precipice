@@ -1,6 +1,7 @@
 var systems = [
 	'canvasSetup',
 	'weaponClock',
+	'spawnInterval',
 	'move',
 	'lockPosition',
 	'recordGesture',

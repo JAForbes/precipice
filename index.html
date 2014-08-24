@@ -53,41 +53,30 @@ shield = E({
 
 })
 
-// fireballTemplate = {
-//     Position: {x:0 ,y: 0},
-//     Velocity: {x: 0, y:0 },
-//     Arc: { radius: 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
-//     DieOnCollision: { inCircle: true, inArc: false },
-//     Speed: { speed: 10 },
-//     Strength: { strength: 5 },
-//     RenderArc: {},
-//     Frame: {scale: 1, playspeed: 1/10, frame: new Frame().reset(resource_test) },
-// }
+
+E({
+    SpawnClock: {
 
 
-function Enemy(){
-    var positions = [
-        {x: 100, y: 100},
-        {x: can.width/2, y: 100},
-        {x: can.width/2, y: can.height-100},
-        {x: can.width - 100, y: 100},
-        {x: 100, y: can.height - 100},
-        {x: can.width - 100, y: can.height - 100},
-        {x: can.width /2, y: can.height - 100},
-        {x: 100 , y: can.height /2},
-        {x: can.width-100, y: can.height /2},
+        positions : function(){
+            return [
+                {x: 100, y: 100},
+                {x: can.width/2, y: 100},
+                {x: can.width/2, y: can.height-100},
+                {x: can.width - 100, y: 100},
+                {x: 100, y: can.height - 100},
+                {x: can.width - 100, y: can.height - 100},
+                {x: can.width /2, y: can.height - 100},
+                {x: 100 , y: can.height /2},
+                {x: can.width-100, y: can.height /2},
 
-    ]
-    return {
-      Position: _(positions).sample(),
-      Velocity: {x:0, y: 0},
-      Arc: {radius : 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
-      DieOnCollision: { inCircle: true, inArc: false },
-      Strength: { strength: 50 },
-      Weapon: { fireRate: 100, target: home, clock: 50 },
-      Frame: {scale:2 , playspeed: 1/5, frame: new Frame().reset(warlock) },
+            ]
+        },
+        clock: 100,
+        spawnRate: 101,
+
     }
-}
+})
 
 function updateScreen(){
     var $el = $(window);

@@ -259,7 +259,6 @@ Systems = {
           health.strength -= strength.strength;
 
           if(health.strength < 0){
-            console.log('health',health,strength.strength)
             E(e,'Remove',{})
           }
         }
@@ -350,6 +349,29 @@ Systems = {
 
       con.stroke();
     });
+  },
+
+  spawnInterval: function(){
+    E('SpawnClock').each(function(spawn,e){
+      spawn.clock++;
+      if(spawn.clock == spawn.spawnRate){
+        spawn.clock = 0;
+
+        var available = _(spawn.positions()).difference(E().Position)
+        
+        var chosen = _(available).sample();
+        console.log(chosen)
+        E({
+          Position: chosen,
+          Velocity: {x:0, y: 0},
+          Arc: {radius : 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
+          DieOnCollision: { inCircle: true, inArc: false },
+          Strength: { strength: 50 },
+          Weapon: { fireRate: 100, target: home, clock: 50 },
+          Frame: {scale:2 , playspeed: 1/5, frame: new Frame().reset(warlock) },
+        })
+      }
+    })
   },
 
   useShieldStrength: function(){
