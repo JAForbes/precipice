@@ -7,6 +7,9 @@
 <img src='img/wizard_cast.png' repeat='false' playspeed='0.33'></img>
 <img src='img/wizard_hurt.png' repeat='true' playspeed='0.33'></img>
 <img id='villagers' src='img/villagers.png' repeat='true' playspeed='0.33'></img>
+<div class='villager_count'>
+    <p>0 Villagers Saved</p>
+</div>
 <center>
 	<canvas id='can'></canvas>
 </center>
@@ -111,6 +114,7 @@ function updateScreen(){
 
 $(window).resize(updateScreen)
 updateScreen()
+
 
 function drawTrees() {
     E('Tree').each(function(tree,e){

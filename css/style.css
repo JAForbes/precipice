@@ -5,10 +5,19 @@ body {
 	overflow: hidden;
 }
 * {
-
 	margin: 0;
 	padding: 0;
 }
 img {
 	display:none
+}
+.villager_count {
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	color:white;
+	font-family: Helvetica;
+}
+.villager_count img {
+	display: block;
 }

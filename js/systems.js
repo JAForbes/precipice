@@ -457,6 +457,8 @@ Systems = {
       var score = E('Score',gameID)
       score[category] = score[category] || 0;
       score[category]++;
+      var $el= $('.villager_count p');
+      $el.text($el.text().replace(/\d+/,score[category]))
       E(e,'Remove',{})
     })
   },
