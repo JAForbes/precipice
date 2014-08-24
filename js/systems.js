@@ -422,7 +422,19 @@ Systems = {
 
       })
     }
-  }, 
+  },
+
+  strengthLose: function(){
+    E('StrengthLose').each(function(lose,e){
+      var strength = E('Strength',e)();
+      if(strength.strength < lose.min){
+        E(e,'GameOver',gameID);
+        E('Paused',gameID).paused = true;
+
+        console.log(E('Score', gameID))
+      }
+    })
+  },
 
   targetReached: function(){
 

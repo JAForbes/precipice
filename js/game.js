@@ -1,5 +1,6 @@
 var systems = [
 	'canvasSetup',
+	'strengthLose',
 	'weaponClock',
 	'spawnInterval',
 	'spawnVillagers',

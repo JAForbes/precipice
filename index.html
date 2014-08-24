@@ -45,6 +45,7 @@ home = E({
     GestureShoot: {},
     DamageOnCollision: { inCircle: true },
     FrameScale: { component: 'Strength', key: 'strength', multiplier: 0.07 },
+    StrengthLose: { min: 50},
 })
 
 defender = E({
@@ -87,8 +88,8 @@ E({
 
             ]
         },
-        clock: -500,
-        spawnRate: 500,
+        clock: 100,
+        spawnRate: 100,
 
     }
 })
