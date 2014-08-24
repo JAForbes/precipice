@@ -2,6 +2,7 @@ var systems = [
 	'canvasSetup',
 	'weaponClock',
 	'spawnInterval',
+	'mouseState',
 	'move',
 	'lockPosition',
 	'recordGesture',
@@ -51,9 +52,7 @@ loop()
 
 window.onkeydown = function(e){
 	console.log(e.which)
-	if(e.which == '69'){
-		E(Enemy())
-	} else if (e.which == '80'){
+	if (e.which == '80'){
 		E('Paused').sample().paused = !E('Paused').sample().paused;
 	}
 

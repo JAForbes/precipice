@@ -3,8 +3,9 @@
 <img id='wormhole' src='img/wormhole.png'></img>
 <img id='warlock' src='img/warlock.png'><img>
 <img id='tree' src='img/tree.png'></img>
-<img id='wizard' src='img/wizard_idle.png'></img>
-<img src='img/wizard_cast.png'></img>
+<img id='wizard' src='img/wizard_idle.png' repeat='true' playspeed='0.033'></img>
+<img src='img/wizard_cast.png' repeat='false' playspeed='0.33'></img>
+<img src='img/wizard_hurt.png' repeat='true' playspeed='0.33'></img>
 <center>
 	<canvas id='can'></canvas>
 </center>
@@ -36,12 +37,10 @@ home = E({
     LockPosition: {position: 'center'},
     Strength: { strength: 150 },
     Arc: { radius: 150, ratio: 0, theta: { start:0 , end: 2*Math.PI} },
-    //RenderArc: {},
     Frame: {scale:10 , playspeed: 1/5, frame: new Frame().reset(wormhole) },
     GestureShoot: {},
     DamageOnCollision: { inCircle: true },
     FrameScale: { component: 'Strength', key: 'strength', multiplier: 0.07 },
-    ArcStrength: {},
 })
 
 
@@ -50,13 +49,13 @@ defender = E({
     LockPosition: {position: 'center'},
     Frame: {scale:3 , playspeed: 1/10, frame: new Frame().reset(wizard) },
     State: {action:'idle'},
+    MouseState: { down: 'cast' },
 })
 
 shield = E({
     Arc : { radius: 0, ratio: 0, theta: { start: 0, end: 0} },
     GestureShield: { protect: home },
     Position: E('Position',home),
-    //RenderArc: {},
     Strength: { strength: 0 },
     DamageOnCollision: { inCircle: true, inArc: true },
 
@@ -69,19 +68,16 @@ E({
         positions : function(){
             return [
                 {x: 100, y: 100},
-                {x: can.width/2, y: 100},
-                {x: can.width/2, y: can.height-100},
                 {x: can.width - 100, y: 100},
                 {x: 100, y: can.height - 100},
                 {x: can.width - 100, y: can.height - 100},
-                {x: can.width /2, y: can.height - 100},
                 {x: 100 , y: can.height /2},
                 {x: can.width-100, y: can.height /2},
 
             ]
         },
         clock: 900,
-        spawnRate: 2000,
+        spawnRate: 500,
 
     }
 })

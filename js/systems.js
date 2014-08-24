@@ -107,7 +107,11 @@ Systems = {
         var img = getImageBySrc(src);
         
         if(img){
+          var repeat = img.getAttribute('repeat') == 'true';
+          var playspeed = (img.getAttribute('playspeed')||1)*1;
           frame.frame.reset(img);
+          frame.repeat = repeat;
+          frame.playspeed = playspeed
         }
         
       }
@@ -137,7 +141,9 @@ Systems = {
           con.translate(position.x,position.y);
           component.frame.playspeed(component.playspeed);
           component.frame.scale(component.scale);
+          component.frame.repeat = typeof component.repeat == 'undefined' || component.repeat;
           component.frame.next();
+
         con.restore();
       }
     });
@@ -297,6 +303,20 @@ Systems = {
         weapon.clock = 0;
 
         E(e,'Shoot',{ at: E('Position',home), velocity: _.random(5,10), })
+      }
+    })
+  },
+
+  mouseState: function(){
+    E('MouseState').each(function(mouseState,e){
+      var mouse = E('Mouse').sample();
+      var state = E('State',e)
+      if(mouse.down && mouseState.down){
+        state.action = mouseState.down
+      } else if (mouse.up && mouseState.up){
+        state.action = mouseState.up;
+      } else {
+        state.action = 'idle'
       }
     })
   },
