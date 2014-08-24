@@ -27,21 +27,22 @@ home = E({
     Velocity: {x: 0,y:0},
     LockPosition: {position: 'center'},
     GestureShoot: {},
-    Charge: { charge: 150 },
+    Strength: { strength: 150 },
+    
     //Frame: {scale: 1, playspeed: 1/10, frame: new Frame().reset(resource_test) },
 })
 
 spikey = E({
-    SpikeyCharge: { spikes: 24, randomAngle : 0.1, randomRadius: 25 },
+    SpikeyStrength: { spikes: 130, randomAngle: 0, randomRadius:25 },
     Arc: { radius: 0, ratio: 0, theta: { start:0 , end: 0} },
-    Charge: E('Charge',home),
+    Strength: E('Strength',home),
     Position: E('Position',home),
+    DamageOnCollision: { inCircle: true, inArc: false },
 })
 
 shield = E({
     Arc : { radius: 0, ratio: 0, theta: { start: 0, end: 0} },
-    GestureShield: {},
-    Charge: E('Charge',home),
+    GestureShield: { protect: spikey },
     Position: E('Position',home),
     RenderArc: {},
     Strength: { strength: 0 },

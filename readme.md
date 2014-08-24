@@ -1,23 +1,19 @@
 LD30
 ====
 
-What is a shield?
------------------
+What is Charge?
+---------------
 
-Shield has an angle, strength and a percentage of coverage
-All are related to the charge uses to create it
+Charge is meant to be the amount of energy left in the wormhole.
 
-The charge is based on the velocity of the gesture
+If the charge is bigger the wormhole is bigger and vice versa.
 
-The shield will block incoming attacks.
+Because the shield needs to be bigger than the charge, it's radius is affected by the charge value.
 
-A small shield is thicker and will survive more hits
-A large shield is thinner and will survive less hits, but greater coverage
+When you create a shield or a projectile, the charge is decremented too.
 
-Do shields expire?  Or only when they get hit?
+To remove the coupling of Shield to charge.  You could have a shield protector
+Which is the entity that the shield is guarding.
+Then we can inspect that entities arc radius and make sure we are bigger than it.
 
-Can you move the shield with mouse move?  And when it expires gesture inward to recharge it
-
-Don't worry too much about the control scheme
-
-If an enemy hits your shield, it recharges you? and damages your shield
+Charge could be mean how much energy something has.  Not sure if there is a difference between charge and strength 

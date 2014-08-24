@@ -14,10 +14,10 @@ var systems = [
 	'dieOnArcCollision',
 	'damageOnArcCollision',
 	'shoot',
-	'useShootCharge',
-	'useShieldCharge',
+	'useShootStrength',
+	'useShieldStrength',
 	'drawArc',
-	'spikeyCharge',
+	'spikeyStrength',
 	'spikeyArcPath',
 	'chooseFrames',
 	'drawFrames',
@@ -50,7 +50,7 @@ function Enemy(){
 	  Arc: {radius : 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
 	  DieOnCollision: { inCircle: true, inArc: false },
 	  RenderArc: {},
-	  Strength: { strength: 2 },
+	  Strength: { strength: 5 },
 	}
 }
 

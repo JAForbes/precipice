@@ -149,21 +149,14 @@ Systems = {
     })
   },
 
-  spikeyCharge: function(){
-    E('SpikeyCharge').each(function(spikeyCharge,e){
-
-      var charge = E('Charge',e);
-      _(spikeyCharge).extend({ spikes: Math.max(8,Math.floor(charge.charge)), randomAngle: 0.25 / charge.charge, randomRadius:charge.charge/10}) 
-      var arc = E('Arc',e);
-      _(arc).extend({
-        radius: charge.charge,
-        theta: { start: 0, end: 2*Math.PI }
-      })
+  spikeyStrength: function(){//todo merge with spikeyArcPath
+    E('SpikeyStrength').each(function(spikeyStrength,e){
+      E('Arc',e).radius = E('Strength',e).strength
     })
   },
 
   spikeyArcPath: function(){
-      E('SpikeyCharge').map(function(spikey,e){
+      E('SpikeyStrength').map(function(spikey,e){
 
         var pos = E('Position',e);
         var arc = E('Arc',e)
@@ -208,21 +201,21 @@ Systems = {
           var y = gesture.start.y - center.y;
           var x = gesture.start.x - center.x;
           var angle = Math.atan2(y,x)
-          var charge = E('Charge',e);
           var coverageRatio = 1/(gesture.velocity);
           var strength = gesture.velocity/2;
           var halfCircle = Math.PI;
           var coverage = coverageRatio * halfCircle;
+          var protecteeArc = E('Arc',gestureShield.protect)
           var arc = E('Arc',e);
 
           _(arc).extend({
             ratio: coverage,
             theta: {start: _.fmod(angle - coverage,2*Math.PI), end: _.fmod(angle + coverage,2*Math.PI)}, //TODO don't need FMOD anymore?
-            radius: charge.charge + 5+ strength *5
+            radius: protecteeArc.radius + 5+ strength *5
           })
 
           E('Strength',e).strength  = strength;
-          E(e,'Shield',{})
+          E(e,'Shield',{ protect: gestureShield.protect })
         }
       })
     })
@@ -279,11 +272,11 @@ Systems = {
   damageOnArcCollision: function(){
 
     E('ArcCollision').each(function(collision,e){
+
       var die = E('DamageOnCollision',e)
       if(!_(die).isEmpty() && die.inArc == collision.inArc && die.inCircle == collision.inCircle){
         var health = E('Strength',e);
         var strength = E('Strength',collision.against)
-        console.log(health.strength,strength.strength)
         health.strength -= strength.strength;
 
       }
@@ -301,7 +294,8 @@ Systems = {
         Position: _(position).clone(),
         Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity},
         Arc: {radius: 50/shoot.velocity, ratio: 1, theta: { start: 0, end: Math.PI * 2} }, //todo, just define the center and let other systems figure out start,end,
-        RenderArc: {}
+        RenderArc: {},
+        Strength: { strength: 1 }
       })
     })
   },
@@ -320,10 +314,10 @@ Systems = {
     });
   },
 
-  useShootCharge: function(){
+  useShootStrength: function(){
     E('Shoot').each(function(shoot,e){
-      var charge = E('Charge',e);
-      charge.charge -= 50/shoot.velocity;
+      var strength = E('Strength',e);
+      strength.strength -= 50/shoot.velocity;
     })
   },
 
@@ -331,8 +325,9 @@ Systems = {
     E('Gesture').each(function(gesture,e){
       if(gesture.towardCenter && gesture.velocity > 1){
         E('Shield').each(function(shield,e){
-          var charge = E('Charge',e);
-          charge.charge -= 50/gesture.velocity;
+
+          var strength = E('Strength',shield.protect);
+          strength.strength -= 50/gesture.velocity;
         })
       }
     })
