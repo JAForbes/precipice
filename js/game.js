@@ -18,8 +18,12 @@ var systems = [
 	'drawArc',
 	'spikeyCharge',
 	'spikeyArcPath',
+	'chooseFrames',
+	'drawFrames',
 	'drawPath',
 	'drawShield',
+
+	
 	'cleanUp',
 ]
 

@@ -2,13 +2,15 @@
 <center>
 	<canvas id='can'></canvas>
 </center>
-
-
 <script src='lib/underscore.js'></script>
 <script src='lib/underscore_mixins.js'></script>
 <script src='lib/e.js'></script>
 <script src='lib/jquery.js'></script>
+<script src='lib/frame.js'></script>
 <script>
+
+    
+
 function now(){
     return new Date().getTime()
 }
@@ -28,6 +30,7 @@ home = E({
     LockPosition: {position: 'center'},
     GestureShoot: {},
     Charge: { charge: 150 },
+    //Frame: {scale: 1, playspeed: 1/10, frame: new Frame().reset(resource_test) },
 })
 
 spikey = E({
@@ -45,7 +48,6 @@ shield = E({
     Position: E('Position',home),
     RenderArc: {}
 })
-
 function updateScreen(){
     var $el = $(window);
     var w = $el.width()

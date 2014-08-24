@@ -87,6 +87,52 @@ Systems = {
 		})
 	},
 
+  chooseFrame: function(){
+    E('State').each(function(state,entity){
+      var frame = E('Frame',entity)
+      var src = frame.frame.image.src;
+      src = src.replace(/_([a-z])*/,'_'+state.action);
+      
+      if(frame.frame.image.src != src){
+        var img = getImageBySrc(src);
+        
+        if(img){
+          frame.frame.reset(img);
+        }
+        
+      }
+
+
+    });
+
+    function getImageBySrc(src){
+      var img;
+      $('img').each(function(){
+        var newSrc = $(this).attr('src');
+        var match = src.indexOf(newSrc) > -1;
+        if(match){
+          img = $(this)[0]
+        }
+      })
+      return img;
+    }
+  },
+
+  drawFrames: function(){
+    E('Frame').each(function(component,entity){
+      var position = E('Position',entity);
+      var con = E('Canvas').sample().con;
+      if(position){
+        con.save();
+          con.translate(position.x,position.y);
+          component.frame.playspeed(component.playspeed);
+          component.frame.scale(component.scale);
+          component.frame.next();
+        con.restore();
+      }
+    });
+  },
+
   drawPath: function(){
     E('Path').each(function(path,e){
       var pos = E('Position',e);
