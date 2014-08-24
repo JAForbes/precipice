@@ -2,6 +2,7 @@
 <img id='energy_ball' src='img/energyball.png'></img>
 <img id='wormhole' src='img/wormhole.png'></img>
 <img id='warlock' src='img/warlock.png'><img>
+<img id='tree' src='img/tree.png'></img>
 <center>
 	<canvas id='can'></canvas>
 </center>
@@ -24,6 +25,8 @@ gameID = E({
 	Paused: { paused: false },
 	Screen: { width: 0, height: 0},
 })
+
+
 
 home = E({
     Position: {x: can.width/2, y:can.height/2},
@@ -93,10 +96,35 @@ function updateScreen(){
     var screen = E('Screen',gameID)
     screen.width = w;
     screen.height = h;
+    setTimeout(drawTrees,200)
 }
 
 $(window).resize(updateScreen)
 updateScreen()
+
+function drawTrees() {
+    E('Tree').each(function(tree,e){
+        E.remove(e)
+    });
+    var n = 25;
+    var angle = 2*Math.PI /n
+    var offsetX = can.width /2;
+    var offsetY = can.height/1.5;
+    var xScale = can.width/2;
+    var yScale = can.height/2
+    _(n).times(function(i){
+
+      var x = Math.cos(i*angle) * xScale + offsetX;
+      var y = Math.sin(i*angle) * yScale + offsetY;
+
+      E({
+        Position: {x:x,y:y},
+        Frame: {scale:y/(can.width/20), playspeed: 1/5, frame: new Frame().reset(tree) },
+        Tree: {}
+      })
+      return [x,y]
+    })
+}
 
 
 

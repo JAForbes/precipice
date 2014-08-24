@@ -297,7 +297,7 @@ Systems = {
       if(weapon.clock == weapon.fireRate){
         weapon.clock = 0;
 
-        E(e,'Shoot',{ at: E('Position',home), velocity: _.random(5,20), })
+        E(e,'Shoot',{ at: E('Position',home), velocity: _.random(5,10), })
       }
     })
   },
