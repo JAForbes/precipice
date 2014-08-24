@@ -76,7 +76,8 @@ Systems = {
   },
 
 	drawArc: function(){
-		E('Arc').each(function(arc,e){
+		E('RenderArc').each(function(render,e){
+      var arc = E('Arc',e)
       var position = E('Position',e)
 			var con = E('Canvas').sample().con
       con.beginPath()
@@ -104,22 +105,28 @@ Systems = {
 
   spikeyCharge: function(){
     E('SpikeyCharge').each(function(spikeyCharge,e){
+
       var charge = E('Charge',e);
-      var spikeyArc = {radius: charge.charge, spikes: Math.max(8,Math.floor(charge.charge)), randomAngle: 0.25 / charge.charge, randomRadius:charge.charge/10}//todo move radius into arc
-      
-      E(e,'SpikeyArc',spikeyArc)
+      _(spikeyCharge).extend({ spikes: Math.max(8,Math.floor(charge.charge)), randomAngle: 0.25 / charge.charge, randomRadius:charge.charge/10}) 
+      var arc = E('Arc',e);
+      _(arc).extend({
+        radius: charge.charge,
+        theta: { start: 0, end: 2*Math.PI }
+      })
     })
   },
 
   spikeyArcPath: function(){
-      E('SpikeyArc').map(function(spikey,e){
+      E('SpikeyCharge').map(function(spikey,e){
+
         var pos = E('Position',e);
+        var arc = E('Arc',e)
         var fullCircle = Math.PI * 2;
         var division = fullCircle / (spikey.spikes * 2);
         var path = [];
         _(spikey.spikes * 2).times(function(i){
           var angle = i * division;
-          var r = spikey.radius;
+          var r = arc.radius;
           var randomAngle = (2*Math.random()-1) * spikey.randomAngle;
           var randomRadius = (2*Math.random()-1) * spikey.randomRadius;
           if(i % 2 == 0){
@@ -230,7 +237,8 @@ Systems = {
       var projectile = E({
         Position: _(position).clone(),
         Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity},
-        Arc: {radius: 50/shoot.velocity, ratio: 1, theta: { start: 0, end: Math.PI * 2} }//todo, just define the center and let other systems figure out start,end
+        Arc: {radius: 50/shoot.velocity, ratio: 1, theta: { start: 0, end: Math.PI * 2} }, //todo, just define the center and let other systems figure out start,end,
+        RenderArc: {}
       })
     })
   },
