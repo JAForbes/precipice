@@ -221,8 +221,8 @@ Systems = {
             radius: charge.charge + 5+ strength *5
           })
 
-          
-          E(e,'Shield',{ strength: strength })
+          E('Strength',e).strength  = strength;
+          E(e,'Shield',{})
         }
       })
     })
@@ -240,21 +240,26 @@ Systems = {
         }
       })  
     })
-    
     function check(arc1,acr2,e1,e2){
 
       var pos1 = E('Position',e1);
       var pos2 = E('Position',e2);
-      //step 1: check if within radius
-      var d = _.distance(pos1,pos2);
-      var r1 = arc1.radius;
-      var r2 = acr2.radius;
-      var isWithinCircle = d < r1+r2;
-      //step 2: check if center within start and end theta
-      var offsetPos = _.direction(pos1,pos2);
-      var angleFrom = Math.atan2(offsetPos.y,offsetPos.x);
-      var isWithinArc = _.between(angleFrom,arc1.theta.start,arc1.theta.end,Math.PI*2)
-      isWithinArc || isWithinCircle && E(e1,'ArcCollision',{against:e2, inArc: isWithinArc, inCircle: isWithinCircle })
+      if(pos1 != pos2 ){//reference check - not value check
+        //step 1: check if within radius
+        var d = _.distance(pos1,pos2);
+        var r1 = arc1.radius;
+        var r2 = acr2.radius;
+        var isWithinCircle = d < r1+r2;
+        //step 2: check if center within start and end theta
+        var offsetPos = _.direction(pos1,pos2);
+        var angleFrom = Math.atan2(offsetPos.y,offsetPos.x);
+        var isWithinArc = _.between(angleFrom,arc1.theta.start,arc1.theta.end,Math.PI*2)
+        if(isWithinArc || isWithinCircle){
+          E(e1,'ArcCollision',{against:e2, inArc: isWithinArc, inCircle: isWithinCircle })
+        }
+        
+      }
+      
     }
 
   },
@@ -262,11 +267,26 @@ Systems = {
   dieOnArcCollision: function(){
 
     E('ArcCollision').each(function(collision,e){
+      
       var die = E('DieOnCollision',e);
       if(!_(die).isEmpty() && die.inArc == collision.inArc && die.inCircle == collision.inCircle){
-        E.remove(e)    
+        E(e,'Remove',{})
       } 
       
+    })
+  },
+
+  damageOnArcCollision: function(){
+
+    E('ArcCollision').each(function(collision,e){
+      var die = E('DamageOnCollision',e)
+      if(!_(die).isEmpty() && die.inArc == collision.inArc && die.inCircle == collision.inCircle){
+        var health = E('Strength',e);
+        var strength = E('Strength',collision.against)
+        console.log(health.strength,strength.strength)
+        health.strength -= strength.strength;
+
+      }
     })
   },
 
@@ -289,9 +309,10 @@ Systems = {
   drawShield: function(){
     E('Shield').each(function(shield,e){
       var con = E('Canvas').sample().con;
+      var strength = E('Strength',e);
       con.beginPath()
       var position = E('Position',e);
-      con.lineWidth = shield.strength * 2;
+      con.lineWidth = strength.strength * 2;
       var arc = E('Arc',e);
       con.arc(position.x, position.y, arc.radius, arc.theta.start,arc.theta.end, false)
       
@@ -325,10 +346,17 @@ Systems = {
     })
   },
 
+  remove: function(){
+    E('Remove').each(function(remove,e){
+      E.remove(e)
+    })
+  },
+
   cleanUp: function(){
     delete E().Shoot
     delete E().Gesture
-    delete E().Intersected
+    delete E().ArcCollision
+
   }
 
 

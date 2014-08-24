@@ -1,5 +1,6 @@
 var systems = [
 	'canvasSetup',
+	'move',
 	'lockPosition',
 	'recordGesture',
 	'gestureDirection',
@@ -9,9 +10,9 @@ var systems = [
 	'gestureVelocity',
 	'gestureShoot',
 	'gestureShield',
-	'move',
 	'arcCollision',
 	'dieOnArcCollision',
+	'damageOnArcCollision',
 	'shoot',
 	'useShootCharge',
 	'useShieldCharge',
@@ -22,8 +23,7 @@ var systems = [
 	'drawFrames',
 	'drawPath',
 	'drawShield',
-
-	
+	'remove',
 	'cleanUp',
 ]
 
@@ -49,7 +49,8 @@ function Enemy(){
 	  Velocity: {x:2, y: 0},
 	  Arc: {radius : 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
 	  DieOnCollision: { inCircle: true, inArc: false },
-	  RenderArc: {}
+	  RenderArc: {},
+	  Strength: { strength: 2 },
 	}
 }
 

@@ -9,8 +9,6 @@
 <script src='lib/frame.js'></script>
 <script>
 
-    
-
 function now(){
     return new Date().getTime()
 }
@@ -38,7 +36,6 @@ spikey = E({
     Arc: { radius: 0, ratio: 0, theta: { start:0 , end: 0} },
     Charge: E('Charge',home),
     Position: E('Position',home),
-
 })
 
 shield = E({
@@ -46,7 +43,10 @@ shield = E({
     GestureShield: {},
     Charge: E('Charge',home),
     Position: E('Position',home),
-    RenderArc: {}
+    RenderArc: {},
+    Strength: { strength: 0 },
+    DamageOnCollision: { inCircle: true, inArc: true },
+
 })
 function updateScreen(){
     var $el = $(window);
