@@ -26,13 +26,14 @@ home = E({
     Position: {x: can.width/2, y:can.height/2},
     Velocity: {x: 0,y:0},
     LockPosition: {position: 'center'},
-    GestureShoot: {},
+
     Strength: { strength: 150 },
     
     //Frame: {scale: 1, playspeed: 1/10, frame: new Frame().reset(resource_test) },
 })
 
 spikey = E({
+    GestureShoot: {},
     SpikeyStrength: { spikes: 130, randomAngle: 0, randomRadius:25 },
     Arc: { radius: 0, ratio: 0, theta: { start:0 , end: 0} },
     Strength: E('Strength',home),
@@ -41,6 +42,7 @@ spikey = E({
 })
 
 shield = E({
+    GestureShoot: {},
     Arc : { radius: 0, ratio: 0, theta: { start: 0, end: 0} },
     GestureShield: { protect: spikey },
     Position: E('Position',home),
@@ -49,6 +51,43 @@ shield = E({
     DamageOnCollision: { inCircle: true, inArc: true },
 
 })
+
+fireballTemplate = {
+    Position: {x:0 ,y: 0},
+    Velocity: {x: 0, y:0 },
+    Arc: { radius: 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
+    DieOnCollision: { inCircle: true, inArc: false },
+    Speed: { speed: 10 },
+    Strength: { strength: 5 },
+    RenderArc: {},
+}
+
+
+function Enemy(){
+    var positions = [
+        {x: 100, y: 100},
+        {x: can.width/2, y: 100},
+        {x: can.width/2, y: can.height-100},
+        {x: can.width - 100, y: 100},
+        {x: 100, y: can.height - 100},
+        {x: can.width - 100, y: can.height - 100},
+        {x: can.width /2, y: can.height - 100},
+        {x: 100 , y: can.height /2},
+        {x: can.width-100, y: can.height /2},
+
+    ]
+    return {
+      Position: _(positions).sample(),
+      Velocity: {x:0, y: 0},
+      Arc: {radius : 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
+      DieOnCollision: { inCircle: true, inArc: false },
+      RenderArc: {},
+      Strength: { strength: 50 },
+      Weapon: { fireRate: 100, template: fireballTemplate, target: home, clock: 50 }
+
+    }
+}
+
 function updateScreen(){
     var $el = $(window);
     var w = $el.width()

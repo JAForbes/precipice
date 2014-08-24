@@ -1,5 +1,6 @@
 var systems = [
 	'canvasSetup',
+	'weaponClock',
 	'move',
 	'lockPosition',
 	'recordGesture',
@@ -14,6 +15,7 @@ var systems = [
 	'dieOnArcCollision',
 	'damageOnArcCollision',
 	'depleteShield',
+
 	'shoot',
 	'useShieldStrength',
 	'drawArc',
@@ -44,16 +46,6 @@ function loop () {
 loop()
 
 
-function Enemy(){
-	return {
-	  Position: {x: 0 ,y:can.height/2},
-	  Velocity: {x:5, y: 0},
-	  Arc: {radius : 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
-	  DieOnCollision: { inCircle: true, inArc: false },
-	  RenderArc: {},
-	  Strength: { strength: 50 },
-	}
-}
 
 window.onkeydown = function(e){
 	console.log(e.which)

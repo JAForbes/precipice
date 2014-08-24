@@ -291,14 +291,17 @@ Systems = {
       var die = E('DamageOnCollision',e)
 
       if(!_(die).isEmpty()){
-
-        var criteriaMet = !(typeof die.inArc != 'undefined' && die.inArc != collision.inArc ||
-          typeof die.inArc != 'undefined' && die.inCircle != collision.inCircle)
         
+        var criteriaMet = !(typeof die.inArc != 'undefined' && die.inArc != collision.inArc ||
+          typeof die.inArc != 'undefined' && die.inCircle != collision.inCircle);
+
         if(criteriaMet){
+
           var health = E('Strength',e);
           var strength = E('Strength',collision.against)
-          health.strength -= strength.strength;  
+          console.log(health,strength)
+          health.strength -= strength.strength;
+
         }
       }
     })
@@ -311,15 +314,30 @@ Systems = {
       var center = {x: can.width/2, y: can.height/2};
       var direction = _.direction(position,at);
       var u = _.unitVector(direction);
+      var arc = E('Arc',e);
+      console.log(arc)
       var strength = E('Strength',e)
       var clampArc = Math.min(50/shoot.velocity,strength.strength/2);
       var projectile = E({
-        Position: _(position).clone(),
+        Position: {x: position.x + (u.x*arc.radius*2), y: position.y + (u.y *arc.radius*2)},
         Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity},
         Arc: {radius: clampArc, ratio: 1, theta: { start: 0, end: Math.PI * 2} }, //todo, just define the center and let other systems figure out start,end,
         RenderArc: {},
-        Strength: { strength: clampArc/100 }
+        Strength: { strength: clampArc },
+        DieOnCollision: { inCircle: true, inArc: false },
       })
+    })
+  },
+
+  weaponClock: function(){
+    E('Weapon').each(function(weapon,e){
+
+      weapon.clock++;
+      if(weapon.clock == weapon.fireRate){
+        weapon.clock = 0;
+
+        E(e,'Shoot',{ at: E('Position',home), velocity: _.random(5,20), })
+      }
     })
   },
 
