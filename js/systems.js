@@ -97,7 +97,7 @@ Systems = {
     })
   },
 
-  chooseFrame: function(){
+  chooseFrames: function(){
     E('State').each(function(state,entity){
       var frame = E('Frame',entity)
       var src = frame.frame.image.src;
@@ -354,13 +354,13 @@ Systems = {
   spawnInterval: function(){
     E('SpawnClock').each(function(spawn,e){
       spawn.clock++;
-      if(spawn.clock == spawn.spawnRate){
+      if(spawn.clock > spawn.spawnRate){
         spawn.clock = 0;
 
         var available = _(spawn.positions()).difference(E().Position)
         
         var chosen = _(available).sample();
-        console.log(chosen)
+
         E({
           Position: chosen,
           Velocity: {x:0, y: 0},

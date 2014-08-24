@@ -3,6 +3,8 @@
 <img id='wormhole' src='img/wormhole.png'></img>
 <img id='warlock' src='img/warlock.png'><img>
 <img id='tree' src='img/tree.png'></img>
+<img id='wizard' src='img/wizard_idle.png'></img>
+<img src='img/wizard_cast.png'></img>
 <center>
 	<canvas id='can'></canvas>
 </center>
@@ -43,6 +45,13 @@ home = E({
 })
 
 
+defender = E({
+    Position: {x: can.width/2, y:can.height/2},
+    LockPosition: {position: 'center'},
+    Frame: {scale:3 , playspeed: 1/10, frame: new Frame().reset(wizard) },
+    State: {action:'idle'},
+})
+
 shield = E({
     Arc : { radius: 0, ratio: 0, theta: { start: 0, end: 0} },
     GestureShield: { protect: home },
@@ -56,7 +65,6 @@ shield = E({
 
 E({
     SpawnClock: {
-
 
         positions : function(){
             return [
@@ -72,8 +80,8 @@ E({
 
             ]
         },
-        clock: 100,
-        spawnRate: 101,
+        clock: 900,
+        spawnRate: 2000,
 
     }
 })
