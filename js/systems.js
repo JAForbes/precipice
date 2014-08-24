@@ -393,6 +393,31 @@ Systems = {
     })
   },
 
+  spawnVillagers: function(){
+    
+    E('SpawnVillagers').each(function(spawn,e){
+
+      spawn.clock ++;
+
+      if(spawn.clock > spawn.rate){
+        spawn.clock = 0;
+        spawnThem()
+      }
+    });
+
+    function spawnThem(){
+      var position = {x: can.width/2, y: can.height}
+      var direction = _.direction(position,{x:can.width/2, y:can.height/2});
+      var u = _.unitVector(direction);
+
+      E({
+          Position: position,
+          Frame: {scale:1.5 , playspeed: 1/5, frame: new Frame().reset(villagers) },
+          Velocity: {x: u.x*1, y:u.y*1}
+      })
+    }
+  }, 
+
   useShieldStrength: function(){
     E('Gesture').each(function(gesture,e){
       if(gesture.towardCenter ){

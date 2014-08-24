@@ -2,6 +2,7 @@ var systems = [
 	'canvasSetup',
 	'weaponClock',
 	'spawnInterval',
+	'spawnVillagers',
 	'mouseState',
 	'move',
 	'lockPosition',

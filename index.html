@@ -6,6 +6,7 @@
 <img id='wizard' src='img/wizard_idle.png' repeat='true' playspeed='0.033'></img>
 <img src='img/wizard_cast.png' repeat='false' playspeed='0.33'></img>
 <img src='img/wizard_hurt.png' repeat='true' playspeed='0.33'></img>
+<img id='villagers' src='img/villagers.png' repeat='true' playspeed='0.33'></img>
 <center>
 	<canvas id='can'></canvas>
 </center>
@@ -44,7 +45,6 @@ home = E({
     DamageOnCollision: { inCircle: true },
     FrameScale: { component: 'Strength', key: 'strength', multiplier: 0.07 },
 })
-
 
 defender = E({
     Position: {x: can.width/2, y:can.height/2},
@@ -91,6 +91,11 @@ E({
 
     }
 })
+
+E({
+    SpawnVillagers: { clock: 0, rate: 1000 }
+})
+
 
 function updateScreen(){
     var $el = $(window);
