@@ -1,7 +1,7 @@
 <link rel='stylesheet' href='css/style.css'>
 <img id='energy_ball' src='img/energyball.png'></img>
 <img id='wormhole' src='img/wormhole.png'></img>
-<img id='pattern_img' src='img/energy_tile.png'><img>
+<img id='warlock' src='img/warlock.png'><img>
 <center>
 	<canvas id='can'></canvas>
 </center>
@@ -80,11 +80,9 @@ function Enemy(){
       Velocity: {x:0, y: 0},
       Arc: {radius : 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
       DieOnCollision: { inCircle: true, inArc: false },
-      RenderArc: {},
       Strength: { strength: 50 },
-      Weapon: { fireRate: 100, 
-         target: home, clock: 50 }
-
+      Weapon: { fireRate: 100, target: home, clock: 50 },
+      Frame: {scale:2 , playspeed: 1/5, frame: new Frame().reset(warlock) },
     }
 }
 
@@ -123,3 +121,4 @@ can.onmouseup = function(e){
 </script>
 <script src='js/systems.js'></script>
 <script src='js/game.js'></script>
+

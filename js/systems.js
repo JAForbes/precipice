@@ -251,15 +251,17 @@ Systems = {
         
         var criteriaMet = !(typeof die.inArc != 'undefined' && die.inArc != collision.inArc ||
           typeof die.inArc != 'undefined' && die.inCircle != collision.inCircle);
-        console.log('criteriaMet',e,collision.against,collision.inCircle,collision.inArc)
         if(criteriaMet){
           
           arc = E('Arc',e);
           var health = E('Strength',e);
           var strength = E('Strength',collision.against)
-          console.log(strength,health)
           health.strength -= strength.strength;
 
+          if(health.strength < 0){
+            console.log('health',health,strength.strength)
+            E(e,'Remove',{})
+          }
         }
       }
     })
@@ -280,8 +282,9 @@ Systems = {
         Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity},
         Arc: {radius: clampArc*2, ratio: 1, theta: { start: 0, end: Math.PI * 2} }, //todo, just define the center and let other systems figure out start,end,
         //RenderArc: {},
+        FrameScale: { component: 'Strength', key: 'strength', multiplier: 0.5 },
         Strength: { strength: clampArc/5},
-        DieOnCollision: { inCircle: true, inArc: false },
+        DamageOnCollision: { inCircle: true, inArc: false },
         Frame: {scale:clampArc/15, playspeed: 1/3, frame: new Frame().reset(energy_ball) },
       })
     })
