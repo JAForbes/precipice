@@ -311,12 +311,14 @@ Systems = {
       var center = {x: can.width/2, y: can.height/2};
       var direction = _.direction(position,at);
       var u = _.unitVector(direction);
+      var strength = E('Strength',e)
+      var clampArc = Math.min(50/shoot.velocity,strength.strength/2);
       var projectile = E({
         Position: _(position).clone(),
         Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity},
-        Arc: {radius: 50/shoot.velocity, ratio: 1, theta: { start: 0, end: Math.PI * 2} }, //todo, just define the center and let other systems figure out start,end,
+        Arc: {radius: clampArc, ratio: 1, theta: { start: 0, end: Math.PI * 2} }, //todo, just define the center and let other systems figure out start,end,
         RenderArc: {},
-        Strength: { strength: 1 }
+        Strength: { strength: clampArc/100 }
       })
     })
   },
