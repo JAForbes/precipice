@@ -311,7 +311,7 @@ Systems = {
           var angle = Math.atan2(y,x)
           var coverageRatio = Math.min(gesture.duration,2000)/2000;
           coverageRatio = coverageRatio > 0.49 && 0.49 || coverageRatio;
-          var strength = Math.max(gesture.duration/1000,1000)/100;
+          var strength = Math.max(gesture.duration/1000,1000)/25;
           var halfCircle = Math.PI;
           var coverage = coverageRatio * halfCircle;
           var protecteeArc = E('Arc',gestureShield.protect)
@@ -336,7 +336,7 @@ Systems = {
       var strength = E('Strength',e);
       con.beginPath()
       var position = E('Position',e);
-      con.lineWidth = strength.strength
+      con.lineWidth = strength.strength/4  + (strength.strength/8* _.cycle(200))
       var arc = E('Arc',e);
       con.arc(position.x, position.y, arc.radius + con.lineWidth , arc.theta.start,arc.theta.end, false)
       
