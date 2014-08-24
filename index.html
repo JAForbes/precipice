@@ -1,6 +1,7 @@
 <link rel='stylesheet' href='css/style.css'>
 <img id='energy_ball' src='img/energyball.png'></img>
 <img id='wormhole' src='img/wormhole.png'></img>
+<img id='pattern_img' src='img/energy_tile.png'><img>
 <center>
 	<canvas id='can'></canvas>
 </center>
@@ -43,7 +44,7 @@ shield = E({
     Arc : { radius: 0, ratio: 0, theta: { start: 0, end: 0} },
     GestureShield: { protect: home },
     Position: E('Position',home),
-    RenderArc: {},
+    //RenderArc: {},
     Strength: { strength: 0 },
     DamageOnCollision: { inCircle: true, inArc: true },
 

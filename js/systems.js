@@ -6,6 +6,7 @@ Systems = {
 
 			can.el.width = screen.width*can.width
 			can.el.height = screen.height*can.height
+
 		});
 	},
 
@@ -148,7 +149,7 @@ Systems = {
       var canvas = E('Canvas').sample();
       var con = canvas.con;
       con.beginPath()
-      con.strokeStyle = 'black';
+      //con.strokeStyle = 'black';
 
       con.moveTo(path[0].x+pos.x,path[0].y+pos.y);
       _(path.slice(1)).each(function(point){
@@ -168,36 +169,7 @@ Systems = {
     })
   },
 
-  gestureShield: function() {
-    E('GestureShield').each(function(gestureShield,e){
-      E('Gesture').each(function(gesture){
-
-        if(gesture.towardCenter){
-          var center = {x: can.width/2, y: can.height/2};
-
-          var y = gesture.start.y - center.y;
-          var x = gesture.start.x - center.x;
-          var angle = Math.atan2(y,x)
-          var coverageRatio = Math.min(gesture.duration,2000)/2000;
-          console.log(coverageRatio)
-          var strength = gesture.velocity/2;
-          var halfCircle = Math.PI;
-          var coverage = coverageRatio * halfCircle;
-          var protecteeArc = E('Arc',gestureShield.protect)
-          var arc = E('Arc',e);
-
-          _(arc).extend({
-            ratio: coverage,
-            theta: {start: _.fmod(angle - coverage,2*Math.PI), end: _.fmod(angle + coverage,2*Math.PI)}, //TODO don't need FMOD anymore?
-            radius: protecteeArc.radius + 5+ strength *5
-          })
-
-          E('Strength',e).strength  = strength;
-          E(e,'Shield',{ protect: gestureShield.protect })
-        }
-      })
-    })
-  },
+  
 
   depleteShield: function(){
     E('Shield').each(function(shield,e){
@@ -327,16 +299,52 @@ Systems = {
     })
   },
 
+  gestureShield: function() {
+    E('GestureShield').each(function(gestureShield,e){
+      E('Gesture').each(function(gesture){
+
+        if(gesture.towardCenter){
+          var center = {x: can.width/2, y: can.height/2};
+
+          var y = gesture.start.y - center.y;
+          var x = gesture.start.x - center.x;
+          var angle = Math.atan2(y,x)
+          var coverageRatio = Math.min(gesture.duration,2000)/2000;
+          coverageRatio = coverageRatio > 0.49 && 0.49 || coverageRatio;
+          var strength = Math.max(gesture.duration/1000,1000)/100;
+          var halfCircle = Math.PI;
+          var coverage = coverageRatio * halfCircle;
+          var protecteeArc = E('Arc',gestureShield.protect)
+          var arc = E('Arc',e);
+
+          _(arc).extend({
+            ratio: coverage,
+            theta: {start: _.fmod(angle - coverage,2*Math.PI), end: _.fmod(angle + coverage,2*Math.PI)}, //TODO don't need FMOD anymore?
+            radius: protecteeArc.radius *1.2
+          })
+
+          E('Strength',e).strength  = strength;
+          E(e,'Shield',{ protect: gestureShield.protect })
+        }
+      })
+    })
+  },
+
   drawShield: function(){
     E('Shield').each(function(shield,e){
       var con = E('Canvas').sample().con;
       var strength = E('Strength',e);
       con.beginPath()
       var position = E('Position',e);
-      con.lineWidth = strength.strength * 2;
+      con.lineWidth = strength.strength
       var arc = E('Arc',e);
-      con.arc(position.x, position.y, arc.radius, arc.theta.start,arc.theta.end, false)
+      con.arc(position.x, position.y, arc.radius + con.lineWidth , arc.theta.start,arc.theta.end, false)
       
+      con.shadowColor = con.strokeStyle = 'rgba(171,254,255,'+_.cycle(10000/ strength.strength)+')';
+      con.shadowBlur = 30;
+      con.shadowOffsetX = 0;
+      con.shadowOffsetY = 0;
+
       con.stroke();
     });
   },

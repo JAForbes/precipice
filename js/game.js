@@ -15,7 +15,6 @@ var systems = [
 	'dieOnArcCollision',
 	'damageOnArcCollision',
 	'depleteShield',
-
 	'shoot',
 	'arcStrength',
 	'useShieldStrength',
