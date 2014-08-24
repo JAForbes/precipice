@@ -17,10 +17,12 @@ var systems = [
 	'depleteShield',
 
 	'shoot',
+	'arcStrength',
 	'useShieldStrength',
 	'drawArc',
 	'spikeyStrength',
 	'spikeyArcPath',
+	'scaleFrame',
 	'chooseFrames',
 	'drawFrames',
 	'drawPath',

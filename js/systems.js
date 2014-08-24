@@ -87,6 +87,15 @@ Systems = {
 		})
 	},
 
+  scaleFrame: function(){
+    E('FrameScale').each(function(frameScale,e){
+      var frame = E('Frame',e);
+      var value = E(frameScale.component,e)[frameScale.key]
+      value *= (frameScale.multiplier || 1)
+      frame.scale = value;
+    })
+  },
+
   chooseFrame: function(){
     E('State').each(function(state,entity){
       var frame = E('Frame',entity)
@@ -149,43 +158,11 @@ Systems = {
     })
   },
 
-  spikeyStrength: function(){//todo merge with spikeyArcPath
-    E('SpikeyStrength').each(function(spikeyStrength,e){
-      E('Arc',e).radius = E('Strength',e).strength
-    })
-  },
-
-  spikeyArcPath: function(){
-      E('SpikeyStrength').map(function(spikey,e){
-
-        var pos = E('Position',e);
-        var arc = E('Arc',e)
-        var fullCircle = Math.PI * 2;
-        var division = fullCircle / (spikey.spikes * 2);
-        var path = [];
-        _(spikey.spikes * 2).times(function(i){
-          var angle = i * division;
-          var r = arc.radius;
-          var randomAngle = (2*Math.random()-1) * spikey.randomAngle;
-          var randomRadius = (2*Math.random()-1) * spikey.randomRadius;
-          if(i % 2 == 0){
-            r = spikey.radius / 1.5;
-          }
-          path.push({x: Math.cos(randomAngle +angle) * (r-randomRadius),y:  Math.sin(randomAngle +angle) * (r-randomRadius) })
-        })
-        path.push(path[0])
-        if(path.length > 1){
-          E(e,'Path',path)
-        }
-        
-      })
-  },
-
   gestureShoot: function () {
     E('GestureShoot').each(function(shooter,e){
       E('Gesture').each(function(gesture){
         if(!gesture.towardCenter && gesture.velocity > 1){
-          E(e,'Shoot',{at: gesture.end, velocity: gesture.velocity})
+          E(e,'Shoot',{at: gesture.end, velocity: 1/gesture.distance*2000})
         }
       })
     })
@@ -195,13 +172,14 @@ Systems = {
     E('GestureShield').each(function(gestureShield,e){
       E('Gesture').each(function(gesture){
 
-        if(gesture.towardCenter && gesture.velocity > 1 && gesture.distance > 100){
+        if(gesture.towardCenter){
           var center = {x: can.width/2, y: can.height/2};
 
           var y = gesture.start.y - center.y;
           var x = gesture.start.x - center.x;
           var angle = Math.atan2(y,x)
-          var coverageRatio = 1/(gesture.velocity);
+          var coverageRatio = Math.min(gesture.duration,2000)/2000;
+          console.log(coverageRatio)
           var strength = gesture.velocity/2;
           var halfCircle = Math.PI;
           var coverage = coverageRatio * halfCircle;
@@ -284,6 +262,13 @@ Systems = {
     })
   },
 
+  arcStrength: function(){
+    E('ArcStrength').each(function(arc,e){
+      var arc = E('Arc',e);
+      arc.radius = E('Strength',e).strength;
+    })
+  },
+
   damageOnArcCollision: function(){
 
     E('ArcCollision').each(function(collision,e){
@@ -294,12 +279,13 @@ Systems = {
         
         var criteriaMet = !(typeof die.inArc != 'undefined' && die.inArc != collision.inArc ||
           typeof die.inArc != 'undefined' && die.inCircle != collision.inCircle);
-
+        console.log('criteriaMet',e,collision.against,collision.inCircle,collision.inArc)
         if(criteriaMet){
-
+          
+          arc = E('Arc',e);
           var health = E('Strength',e);
           var strength = E('Strength',collision.against)
-          console.log(health,strength)
+          console.log(strength,health)
           health.strength -= strength.strength;
 
         }
@@ -315,16 +301,16 @@ Systems = {
       var direction = _.direction(position,at);
       var u = _.unitVector(direction);
       var arc = E('Arc',e);
-      console.log(arc)
       var strength = E('Strength',e)
-      var clampArc = Math.min(50/shoot.velocity,strength.strength/2);
+      var clampArc = Math.min(50/shoot.velocity,strength.strength/2) * 5;
       var projectile = E({
-        Position: {x: position.x + (u.x*arc.radius*2), y: position.y + (u.y *arc.radius*2)},
+        Position: {x: position.x + (u.x*(arc.radius+clampArc) * 2), y: position.y + (u.y *(arc.radius+clampArc) * 2)},
         Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity},
-        Arc: {radius: clampArc, ratio: 1, theta: { start: 0, end: Math.PI * 2} }, //todo, just define the center and let other systems figure out start,end,
-        RenderArc: {},
-        Strength: { strength: clampArc },
+        Arc: {radius: clampArc*2, ratio: 1, theta: { start: 0, end: Math.PI * 2} }, //todo, just define the center and let other systems figure out start,end,
+        //RenderArc: {},
+        Strength: { strength: clampArc/5},
         DieOnCollision: { inCircle: true, inArc: false },
+        Frame: {scale:clampArc/15, playspeed: 1/3, frame: new Frame().reset(energy_ball) },
       })
     })
   },
@@ -357,11 +343,10 @@ Systems = {
 
   useShieldStrength: function(){
     E('Gesture').each(function(gesture,e){
-      if(gesture.towardCenter && gesture.velocity > 1){
+      if(gesture.towardCenter ){
         E('Shield').each(function(shield,e){
-
           var strength = E('Strength',shield.protect);
-          strength.strength -= 50/gesture.velocity;
+          strength.strength -= gesture.duration/200;
         })
       }
     })
