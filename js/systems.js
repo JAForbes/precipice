@@ -263,7 +263,12 @@ Systems = {
       
       var die = E('DieOnCollision',e);
       if(!_(die).isEmpty() && die.inArc == collision.inArc && die.inCircle == collision.inCircle){
-        E(e,'Remove',{})
+        var criteriaMet = !(typeof die.inArc != 'undefined' && die.inArc != collision.inArc ||
+          typeof die.inArc != 'undefined' && die.inCircle != collision.inCircle)
+        if(criteriaMet){
+          E(e,'Remove',{})
+        }
+        
       } 
       
     })
@@ -274,11 +279,17 @@ Systems = {
     E('ArcCollision').each(function(collision,e){
 
       var die = E('DamageOnCollision',e)
-      if(!_(die).isEmpty() && die.inArc == collision.inArc && die.inCircle == collision.inCircle){
-        var health = E('Strength',e);
-        var strength = E('Strength',collision.against)
-        health.strength -= strength.strength;
 
+      if(!_(die).isEmpty()){
+
+        var criteriaMet = !(typeof die.inArc != 'undefined' && die.inArc != collision.inArc ||
+          typeof die.inArc != 'undefined' && die.inCircle != collision.inCircle)
+        
+        if(criteriaMet){
+          var health = E('Strength',e);
+          var strength = E('Strength',collision.against)
+          health.strength -= strength.strength;  
+        }
       }
     })
   },
@@ -314,14 +325,7 @@ Systems = {
     });
   },
 
-  useShootStrength: function(){
-    E('Shoot').each(function(shoot,e){
-      var strength = E('Strength',e);
-      strength.strength -= 50/shoot.velocity;
-    })
-  },
-
-  useShieldCharge: function(){
+  useShieldStrength: function(){
     E('Gesture').each(function(gesture,e){
       if(gesture.towardCenter && gesture.velocity > 1){
         E('Shield').each(function(shield,e){
