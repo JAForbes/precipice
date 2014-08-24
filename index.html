@@ -30,6 +30,7 @@ gameID = E({
 	Mouse: { x: can.width/2, y: can.height/2, },
 	Paused: { paused: false },
 	Screen: { width: 0, height: 0},
+    Score: {},
 })
 
 
@@ -86,14 +87,14 @@ E({
 
             ]
         },
-        clock: 900,
+        clock: -500,
         spawnRate: 500,
 
     }
 })
 
 E({
-    SpawnVillagers: { clock: 0, rate: 1000 }
+    SpawnVillagers: { clock: 900, rate: 1000 }
 })
 
 

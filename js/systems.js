@@ -397,7 +397,7 @@ Systems = {
     
     E('SpawnVillagers').each(function(spawn,e){
 
-      spawn.clock ++;
+      spawn.clock++;
 
       if(spawn.clock > spawn.rate){
         spawn.clock = 0;
@@ -415,13 +415,40 @@ Systems = {
           Frame: {scale:1.5 , playspeed: 1/5, frame: new Frame().reset(villagers) },
           Velocity: {x: u.x*1, y:u.y*1},
           Arc: { radius: 5, ratio: 1, theta: {start: 0, end: 2*Math.PI }},
-          DieOnCollision: { inCircle: true, inArc: false },
           RenderArc: {},
           Strength: o({ strength: 0 }),
+          Target: { x: can.width/2, y: can.height/2 },
+          TargetScore: { category: "Villager's saved"}
 
       })
     }
   }, 
+
+  targetReached: function(){
+
+    E('Target').each(function(target,e){
+
+      var position = E('Position',e);
+      var velocity = E('Velocity',e);
+      var d =_.distance(target,position);
+      
+      if( d  <  Math.abs(velocity.x + velocity.y) ){
+        E(e,'TargetReached',{})
+      }
+
+    })
+  },
+
+  targetScore: function () {
+    E('TargetReached').each( function(reached,e) {
+      var category = E('TargetScore',e).category;
+      var score = E('Score',gameID)
+      score[category] = score[category] || 0;
+      score[category]++;
+      E(e,'Remove',{})
+    })
+  },
+
 
   useShieldStrength: function(){
     E('Gesture').each(function(gesture,e){

@@ -5,6 +5,8 @@ var systems = [
 	'spawnVillagers',
 	'mouseState',
 	'move',
+	'targetReached',
+	'targetScore',
 	'lockPosition',
 	'recordGesture',
 	'gestureDirection',
