@@ -357,6 +357,16 @@ Systems = {
     })
   },
 
+  removeOffscreen: function(){
+    var can = E('Canvas').sample().el;
+    var buffer = 1000;
+    E('Position').each(function(position,e){
+      if(position.x > can.width + buffer|| position.x < -buffer && position.y > can.height + buffer|| position.y < -buffer){
+        E(e,'Remove',{})
+      }
+    })
+  },
+
   remove: function(){
     E('Remove').each(function(remove,e){
       E.remove(e)

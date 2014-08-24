@@ -23,6 +23,7 @@ var systems = [
 	'drawFrames',
 	'drawPath',
 	'drawShield',
+	'removeOffscreen',
 	'remove',
 	'cleanUp',
 ]
