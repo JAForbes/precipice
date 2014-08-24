@@ -262,8 +262,11 @@ Systems = {
           arc = E('Arc',e);
           var health = E('Strength',e);
           var strength = E('Strength',collision.against)
-          health.strength -= strength.strength;
-
+          
+          health.strength -= strength.strength
+          var state = E('State',e);
+          state.action = 'hurt';
+          console.log(state,e)
           if(health.strength < 0){
             E(e,'Remove',{})
           }
@@ -315,8 +318,6 @@ Systems = {
         state.action = mouseState.down
       } else if (mouse.up && mouseState.up){
         state.action = mouseState.up;
-      } else {
-        state.action = 'idle'
       }
     })
   },
