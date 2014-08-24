@@ -49,7 +49,7 @@ function loop () {
 	} else {
 		_.delay(function(){
 			location.reload()
-		},4000)
+		},1000)
 	}
 	
 	requestAnimationFrame(loop)
