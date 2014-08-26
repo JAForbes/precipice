@@ -223,23 +223,6 @@ Systems = {
 
   },
 
-  dieOnArcCollision: function(){
-
-    E('ArcCollision').each(function(collision,e){
-      
-      var die = E('DieOnCollision',e);
-      if(!_(die).isEmpty() && die.inArc == collision.inArc && die.inCircle == collision.inCircle){
-        var criteriaMet = !(!_(die.inArc).isUndefined() && die.inArc != collision.inArc ||
-          typeof die.inCircle != 'undefined' && die.inCircle != collision.inCircle)
-        if(criteriaMet){
-          E(e,'Remove',{})
-        }
-        
-      } 
-      
-    })
-  },
-
   arcStrength: function(){
     E('ArcStrength').each(function(arc,e){
       var arc = E('Arc',e);
@@ -252,14 +235,15 @@ Systems = {
     E('ArcCollision').each(function(collision,e){
 
       var die = E('DamageOnCollision',e)
-
+      var otherDie = E('DamageOnCollision',collision.against)
       if(!_(die).isEmpty()){
         
         var criteriaMet = !(typeof die.inArc != 'undefined' && die.inArc != collision.inArc ||
           typeof die.inCircle != 'undefined' && die.inCircle != collision.inCircle);
+
         if(criteriaMet){
           
-          arc = E('Arc',e);
+          var arc = E('Arc',e);
           var health = E('Strength',e);
           var strength = E('Strength',collision.against)
           
@@ -282,7 +266,7 @@ Systems = {
       var u = _.unitVector(direction);
       var arc = E('Arc',e);
       var strength = E('Strength',e)()
-      var clampArc = Math.min(50/shoot.velocity,strength.strength/2) * 5;
+      var clampArc = Math.min(50/shoot.velocity) * 5;
       var projectile = E({
         Position: {x: position.x + (u.x*(arc.radius+clampArc) * 2), y: position.y + (u.y *(arc.radius+clampArc) * 2)},
         Velocity: {x: u.x * shoot.velocity , y: u.y * shoot.velocity},
@@ -290,7 +274,7 @@ Systems = {
         //RenderArc: {},
         FrameScale: { component: 'Strength', key: 'strength', multiplier: 0.5 },
         Strength: o({ strength: clampArc/5}),
-        DamageOnCollision: { inCircle: true, inArc: false },
+        DamageOnCollision: { inCircle: true },
         Frame: {scale:clampArc/15, playspeed: 1/3, frame: new Frame().reset(energy_ball) },
       })
     })
@@ -384,8 +368,8 @@ Systems = {
           Position: chosen,
           Velocity: {x:0, y: 0},
           Arc: {radius : 20, ratio: 1, theta : { start: 0 , end : 2 * Math.PI }},
-          DieOnCollision: { inCircle: true, inArc: false },
-          Strength: o({ strength: 50 }),
+          DamageOnCollision: { inCircle: true, inArc: false },
+          Strength: o({ strength: 1 }),
           Weapon: { fireRate: 100, target: home, clock: 50 },
           Frame: {scale:2 , playspeed: 1/5, frame: new Frame().reset(warlock) },
         })
