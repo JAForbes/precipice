@@ -27,6 +27,7 @@ var systems = [
 	'drawArc',
 	'spikeyStrength',
 	'spikeyArcPath',
+	'sounds',
 	'scaleFrame',
 	'chooseFrames',
 	'drawFrames',
@@ -90,6 +91,7 @@ home = E({
     DamageOnCollision: { inCircle: true },
     FrameScale: { component: 'Strength', key: 'strength', multiplier: 0.07 },
     StrengthLose: { min: 50},
+    ArcStrength: {}
 })
 
 defender = E({
@@ -142,6 +144,13 @@ E({
     SpawnVillagers: { clock: 900, rate: 1000 }
 })
 
+
+E({
+	Sound: { 
+		Remove: '#sounds #hits',
+		TargetReached: '#sounds #warp'
+	}
+})
 
 function updateScreen(){
     var $el = $(window);

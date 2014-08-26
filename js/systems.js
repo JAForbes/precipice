@@ -230,6 +230,23 @@ Systems = {
 
   },
 
+  sounds: function(){
+    E('Sound').each(function(queries){
+      _(queries).each(function(domQuery,eQuery){
+        E(eQuery).each(function(val){
+          
+
+          var s = _($(domQuery+' audio')).sample()
+          if(s.paused || s.currentTime>1){
+            s.currentTime = 0
+            s.play()  
+          }
+          
+        })
+      })
+    })
+  },
+
   arcStrength: function(){
     E('ArcStrength').each(function(arc,e){
       var arc = E('Arc',e);
@@ -422,6 +439,15 @@ Systems = {
     }
   },
 
+  arcStrength: function(){
+    E('ArcStrength').each(function(arcStrength,e){
+      var strength = E('Strength',e)
+      var arc = E('Arc',e)
+
+      arc.radius = strength.strength()
+    })
+  },
+
   strengthLose: function(){
     E('StrengthLose').each(function(lose,e){
       var strength = E('Strength',e)();
@@ -501,7 +527,7 @@ Systems = {
     delete E().Shoot
     delete E().Gesture
     delete E().ArcCollision
-
+    delete E().TargetReached    
   }
 
 
