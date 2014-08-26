@@ -229,8 +229,8 @@ Systems = {
       
       var die = E('DieOnCollision',e);
       if(!_(die).isEmpty() && die.inArc == collision.inArc && die.inCircle == collision.inCircle){
-        var criteriaMet = !(typeof die.inArc != 'undefined' && die.inArc != collision.inArc ||
-          typeof die.inArc != 'undefined' && die.inCircle != collision.inCircle)
+        var criteriaMet = !(!_(die.inArc).isUndefined() && die.inArc != collision.inArc ||
+          typeof die.inCircle != 'undefined' && die.inCircle != collision.inCircle)
         if(criteriaMet){
           E(e,'Remove',{})
         }
@@ -256,7 +256,7 @@ Systems = {
       if(!_(die).isEmpty()){
         
         var criteriaMet = !(typeof die.inArc != 'undefined' && die.inArc != collision.inArc ||
-          typeof die.inArc != 'undefined' && die.inCircle != collision.inCircle);
+          typeof die.inCircle != 'undefined' && die.inCircle != collision.inCircle);
         if(criteriaMet){
           
           arc = E('Arc',e);
