@@ -214,7 +214,14 @@ Systems = {
         var angleFrom = Math.atan2(offsetPos.y,offsetPos.x);
         var isWithinArc = _.between(angleFrom,arc1.theta.start,arc1.theta.end,Math.PI*2)
         if(isWithinArc || isWithinCircle){
-          E(e1,'ArcCollision',{against:e2, inArc: isWithinArc, inCircle: isWithinCircle })
+          var ac = E('ArcCollision',e1);
+          var collisionData = {against:e2, inArc: isWithinArc, inCircle: isWithinCircle}
+          if(_(ac).isEmpty()){
+            E(e1,'ArcCollision',{ collisions: [collisionData] })  
+          } else {
+            ac.collisions.push(collisionData)
+          }
+          
         }
         
       }
@@ -234,26 +241,33 @@ Systems = {
 
     E('ArcCollision').each(function(collision,e){
 
-      var die = E('DamageOnCollision',e)
-      var otherDie = E('DamageOnCollision',collision.against)
-      if(!_(die).isEmpty()){
-        
-        var criteriaMet = !(typeof die.inArc != 'undefined' && die.inArc != collision.inArc ||
-          typeof die.inCircle != 'undefined' && die.inCircle != collision.inCircle);
+      _(collision.collisions).each(function(collision){
 
-        if(criteriaMet){
-          
-          var arc = E('Arc',e);
-          var health = E('Strength',e);
-          var strength = E('Strength',collision.against)
-          
-          health.strength( health.strength() - strength.strength() ) 
+      
+        var die = E('DamageOnCollision',e)
+        var otherDie = E('DamageOnCollision',collision.against)
 
-          if(health.strength() < 0){
-            E(e,'Remove',{})
+        var otherCollision = _(E('ArcCollision',collision.against).collisions).findWhere({against:e})
+        if(!_(die).isEmpty()){
+          
+          var criteriaMet = !(typeof die.inArc != 'undefined' && die.inArc != collision.inArc ||
+            typeof die.inCircle != 'undefined' && die.inCircle != collision.inCircle);
+
+          if(criteriaMet && _.agree(die,collision) && _.agree(otherDie,otherCollision)){
+            
+            var arc = E('Arc',e);
+            var health = E('Strength',e);
+            var strength = E('Strength',collision.against)
+            
+            health.strength( health.strength() - strength.strength() ) 
+
+            if(health.strength() < 0){
+              E(e,'Remove',{})
+            }
           }
         }
-      }
+
+      })
     })
   },
 
