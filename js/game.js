@@ -38,7 +38,13 @@ var systems = [
 	'cleanUp',
 ]
 
+
+reloadDelay =_.throttle(function(){
+    location.reload()
+},4000,{leading:false})
+
 function loop () {
+
 	var paused = E('Paused').sample().paused;
 	if(!paused){
 		_(systems).each(function(name){
@@ -48,11 +54,8 @@ function loop () {
 			}
 		})
 	} else {
-		$('.villager_count').html('<p>Game will restart in 4 seconds</p>')
-		_.delay(function(){
-			location.reload()
-
-		},4000)
+        $('.villager_count').text('Game will restart in 4 seconds')
+		reloadDelay()
 	}
 	
 	requestAnimationFrame(loop)
@@ -81,21 +84,6 @@ function updateScreen(){
 }
 
 
-function gameEls(){
-    var elsStr = [
-        "<div class='villager_count'>",
-            "<p>0 Villagers Saved</p>",
-        "</div>",
-        "<div class='credits'>",
-            "<p>Precipice - <a href='https://twitter.com/james_a_forbes/'>James Forbes</a></p>",
-        "</div>",
-        "<center>",
-            "<canvas id='can'></canvas>",
-        "</center>"
-    ];
-    $('body').append(elsStr)
-}
-
 
 function drawTrees() {
     E('Tree').each(function(tree,e){
@@ -122,8 +110,6 @@ function drawTrees() {
 }
 
 startGame = function(){
-    
-    gameEls()
 
     var mc = new Hammer.Manager(can, {});
 
