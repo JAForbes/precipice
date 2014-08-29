@@ -81,6 +81,20 @@ function updateScreen(){
 }
 
 
+function gameEls(){
+    var elsStr = [
+        "<div class='villager_count'>",
+            "<p>0 Villagers Saved</p>",
+        "</div>",
+        "<div class='credits'>",
+            "<p>Precipice - <a href='https://twitter.com/james_a_forbes/'>James Forbes</a></p>",
+        "</div>",
+        "<center>",
+            "<canvas id='can'></canvas>",
+        "</center>"
+    ];
+    $('body').append(elsStr)
+}
 
 
 function drawTrees() {
@@ -109,6 +123,8 @@ function drawTrees() {
 
 startGame = function(){
     
+    gameEls()
+
     var mc = new Hammer.Manager(can, {});
 
     var pan = new Hammer.Pan();

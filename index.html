@@ -17,15 +17,6 @@ var sounds = {
 
 </script>
 <body>
-<div class='villager_count'>
-    <p>0 Villagers Saved</p>
-</div>
-<div class='credits'>
-    <p>Precipice - <a href='https://twitter.com/james_a_forbes/'>James Forbes</a></p>
-</div>
-<center>
-	<canvas id='can'></canvas>
-</center>
 </body>
 <script src='lib/underscore.js'></script>
 <script src='lib/underscore_mixins.js'></script>
@@ -35,28 +26,10 @@ var sounds = {
 <script src='lib/frame.js'></script>
 <script src='lib/hammer.js'></script>
 <script src='lib/preload.js'></script>
-<script>
-$resources = $('audio,img')
-$resources.map(function(i,resource){
-    resource.onload = function(){
-        console.log('yay')
-    }
-})
-// when ready loop()
-function now(){
-    return new Date().getTime()
-}
-preload(images,sounds,function(){
-  startGame()
-},function(n,total){
-    console.log(n,'/',total)
-})
-</script>
-
-<script>
-
-
-</script>
 <script src='js/systems.js'></script>
 <script src='js/game.js'></script>
+<script>
+preload(images,sounds,startGame,updateLoadBar)
+function updateLoadBar(n,total){ console.log(n,'/',total) }
+</script>
 
