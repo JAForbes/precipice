@@ -1,26 +1,22 @@
 <link rel='stylesheet' href='css/style.css'>
-<img id='energy_ball' src='img/energyball.png'></img>
-<img id='wormhole' src='img/wormhole.png'></img>
-<img id='warlock' src='img/warlock.png'><img>
-<img id='tree' src='img/tree.png'></img>
-<img id='wizard' src='img/wizard_idle.png' repeat='true' playspeed='0.033'></img>
-<img src='img/wizard_cast.png' repeat='false' playspeed='0.33'></img>
-<img src='img/wizard_hurt.png' repeat='true' playspeed='0.33'></img>
-<img id='villagers' src='img/villagers.png' repeat='true' playspeed='0.33'></img>
+<script>
+var images = [
+    { id: 'energy_ball', src: 'img/energyball.png'},
+    { id: 'wormhole', src: 'img/wormhole.png'},
+    { id: 'tree', src: 'img/tree.png'},
+    { id: 'wizard', src: 'img/wizard.png'},
+    { id: 'warlock', src: 'img/warlock.png' },
+    { src: 'img/wizard_cast.png', repeat: 'false', playspeed: '0.33' },
+    { src: 'img/wizard_hurt.png', repeat: 'true', playspeed: '0.33' },
+    { id: 'villagers', src: 'img/villagers.png', repeat: 'true', playspeed: '0.33' },
+]
+var sounds = {
+    hits: ['snd/Hit.wav','snd/Hit2.wav','snd/Hit3.wav','snd/Hit4.wav','snd/Hit5.wav'],
+    warp: ['snd/Warp.wav']
+}
 
-<div id='sounds'>
-    <div id='hits'>
-        <audio src='snd/Hit.wav'></audio>
-        <audio src='snd/Hit2.wav'></audio>
-        <audio src='snd/Hit3.wav'></audio>
-        <audio src='snd/Hit4.wav'></audio>
-        <audio src='snd/Hit5.wav'></audio>
-    <div>
-    <div id='warp'>
-        <audio src='snd/Warp.wav'></audio>
-    </div>
-</div>
-
+</script>
+<body>
 <div class='villager_count'>
     <p>0 Villagers Saved</p>
 </div>
@@ -30,7 +26,7 @@
 <center>
 	<canvas id='can'></canvas>
 </center>
-
+</body>
 <script src='lib/underscore.js'></script>
 <script src='lib/underscore_mixins.js'></script>
 <script src='lib/o.js'></script>
@@ -38,11 +34,26 @@
 <script src='lib/jquery.js'></script>
 <script src='lib/frame.js'></script>
 <script src='lib/hammer.js'></script>
+<script src='lib/preload.js'></script>
 <script>
-
+$resources = $('audio,img')
+$resources.map(function(i,resource){
+    resource.onload = function(){
+        console.log('yay')
+    }
+})
+// when ready loop()
 function now(){
     return new Date().getTime()
 }
+preload(images,sounds,function(){
+  startGame()
+})
+</script>
+
+<script>
+
+
 </script>
 <script src='js/systems.js'></script>
 <script src='js/game.js'></script>
