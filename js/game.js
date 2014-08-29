@@ -50,7 +50,7 @@ function loop () {
 	} else {
 		$('.villager_count').html('<p>Game will restart in 4 seconds</p>')
 		_.delay(function(){
-			//location.reload()
+			location.reload()
 
 		},4000)
 	}
