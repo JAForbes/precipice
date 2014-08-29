@@ -1,3 +1,10 @@
+@font-face { 
+	font-family: 'phoenix';
+	src:  url('../font/phoenix.ttf') format('truetype'); 
+	font-weight: normal; 
+	font-style: normal; 
+} 
+
 canvas {
 	background-color:#000;
 }
@@ -6,6 +13,7 @@ body {
 	background-color: #000;
 }
 * {
+	font-family: 'phoenix'; font-size:16px;
 	margin: 0;
 	padding: 0;
 }
@@ -17,7 +25,6 @@ img {
 	position: absolute;
 	text-align: center;
 	color:white;
-	font-family: Helvetica;
 }
 .credits {
 	width: 100%;
@@ -25,7 +32,6 @@ img {
 	bottom: 1em;
 	text-align: center;
 	color:white;
-	font-family: Helvetica;
 }
 a:visited {
 	color: white;
