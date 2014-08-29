@@ -17,15 +17,17 @@ var sounds = {
 
 </script>
 <body>
-    <div class='villager_count'>
-        <p>0 Villagers Saved</p>
+    <div class='game-ui' style='display:none;'>
+        <div class='villager_count'>
+            <p>0 Villagers Saved</p>
+        </div>
+        <div class='credits'>
+            <p>Precipice - <a href='https://twitter.com/james_a_forbes/'>James Forbes</a></p>
+        </div>
+        <center>
+            <canvas id='can'></canvas>
+        </center>
     </div>
-    <div class='credits'>
-        <p>Precipice - <a href='https://twitter.com/james_a_forbes/'>James Forbes</a></p>
-    </div>
-    <center>
-        <canvas id='can'></canvas>
-    </center>
 </body>
 <script src='lib/underscore.js'></script>
 <script src='lib/underscore_mixins.js'></script>

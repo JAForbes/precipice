@@ -110,7 +110,7 @@ function drawTrees() {
 }
 
 startGame = function(){
-
+    $('.game-ui').show()
     var mc = new Hammer.Manager(can, {});
 
     var pan = new Hammer.Pan();
