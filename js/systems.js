@@ -31,9 +31,9 @@ Systems = {
       var start = E('GestureStart',id)
       var gesture = E('Gesture',id)
       if(mouse.down && !start.x){
-        E(id,'GestureStart',{x: mouse.x, y: mouse.y, time: now() })
+        E(id,'GestureStart',{x: mouse.x, y: mouse.y, time: _.now() })
       } else if (!mouse.down && start.x && !gesture.x){
-        E(id,'Gesture',{ start: start, end: {x: mouse.x, y: mouse.y, time: now() }})
+        E(id,'Gesture',{ start: start, end: {x: mouse.x, y: mouse.y, time: _.now() }})
         delete E().GestureStart[id]
       }
     });
