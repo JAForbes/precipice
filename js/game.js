@@ -210,7 +210,8 @@ startGame = function(){
     })
 
 
-    E({
+
+    window.location.href.indexOf('mute') == -1 && E({
         Sound: { 
             Remove: '#hits',
             TargetReached: '#warp'
